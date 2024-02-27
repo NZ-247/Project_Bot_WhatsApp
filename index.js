@@ -819,65 +819,56 @@ break
 `)
 break
 
+const msgjao = [
+    'O jão comedor de idosas.',
+    'O jão é gay.',
+    'O jão é conhecido por suas incríveis habilidades em chupar pikas.',
+    'Jão, cala a boca nmrl.',
+    'Tu é um Jão',
+    'Valorize sua vida, vote na expulsão do Jão.',
+    'Não sei vocês mas o Jão é baitola'
+];
+
+const msgbruno = [
+    'Bruno comedor de Mãe alheia.',
+    'O Comedor de Índia.',
+    'O Bruno é conhecido por suas incríveis habilidades de conquistar mães.',
+    'Bruno, O gostosão.',
+    'Tá aí um mlk que eu dou mó valor.',
+    'Esconsa sua mãe, o Bruno tá ON!',
+    'O Cara mais gostoso do Grupo;)'
+];
+
+const msgalan = [
+    'Comedor de Prima',
+    'Eae, tua prima tá bem?',
+    'Comedor de tia',
+    'Eae, tua tia tá bem?',
+    'Escondam suas tias, O Alan tá ON!',
+    'Escondam suas primas, O Alan tá ON!',
+    'O mais foda do Grupo;)'
+];
+
 case 'jao':
-    const mensagens = [
-        'O jão comedor de idosas.',
-        'O jão é gay.',
-        'O jão é conhecido por suas incríveis habilidades em chupar pikas.',
-        'Jão, cala a boca nmrl.',
-        'Tu é um Jão',
-        'Valorize sua vida, vote na expulsão do Jão.',
-        'Não sei vocês mas o Jão é baitola'
-    ];
+        enviarMensagemAleatoria(msgjao);
+        break;
 
-    function enviarMensagemAleatoria() {
-        const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
-        enviar(mensagemAleatoria);
-    }
+    case 'bruno':
+        enviarMensagemAleatoria(msgbruno);
+        break;
 
-    enviarMensagemAleatoria();
+    case 'alan':
+        enviarMensagemAleatoria(msgalan);
+        break;
 
-break
+    default:
+        // Caso padrão se nenhum caso corresponder ao comando
+        break;
 
-case 'bruno':
-    const msgbruno = [
-        'Bruno comedor de Mãe alheia.',
-        'O Comedor de Índia.',
-        'O Bruno é conhecido por suas incríveis habilidades de conquistar mães.',
-        'Bruno, O gostosão.',
-        'Tá aí um mlk que eu dou mó valor.',
-        'Esconsa sua mãe, o Bruno tá ON!',
-        'O Cara mais gostoso do Grupo;)'
-    ];
-
-    function enviarMensagemAleatoria() {
-        const mensagemAleatoria = msgbruno[Math.floor(Math.random() * msgbruno.length)];
-        enviar(mensagemAleatoria);
-    }
-
-    enviarMensagemAleatoria();
-
-break
-
-case 'alan':
-    const msgalan = [
-        'Comedor de Prima',
-        'Eae, tua prima tá bem?',
-        'Comedor de tia',
-        'Eae, tua tia tá bem?',
-        'Escondam suas tias, O Alan tá ON!',
-        'Escondam suas primas, O Alan tá ON!',
-        'O mais foda do Grupo;)'
-    ];
-    
-    function enviarMensagemAleatoria() {
-        const mensagemAleatoria = msgalan[Math.floor(Math.random() * msgalan.length)];
-        enviar(mensagemAleatoria);
-    }
-
-    enviarMensagemAleatoria();
-
-break
+function enviarMensagemAleatoria(mensagens) {
+    const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
+    enviar(mensagemAleatoria);
+}
 
 case 'gerargp':
 if(!q) return enviar(`Use o comando da seguinte forma. Exemplo: ${prefix + command} anime`)
@@ -1051,7 +1042,7 @@ enviar(`Você precisa enviar ou marcar uma imagem, é uma figurinha não um film
 }
 })().catch(e => {
 console.log(e)
-enviar("Fudeo deu erro")
+enviar("Deu não menó, foi mal...")
 try {
 if (fs.existsSync("temp.exif")) fs.unlinkSync("temp.exif");
 if (fs.existsSync(rano)) fs.unlinkSync(rano);
