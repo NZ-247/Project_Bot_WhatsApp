@@ -1964,7 +1964,6 @@ membr.push(paus5.id)
 mentions(pdr, membr, true)
 break 
 
-default:
 
 if(budy.includes('Bot')) {
 enviar(`Opa ${pushname}, posso ajudar?`)
