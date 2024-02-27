@@ -345,6 +345,7 @@ const isQuotedSticker = type === "extendedTextMessage" && content.includes("stic
 const isQuotedContact = type === "extendedTextMessage" && content.includes("contactMessage")
 const isQuotedLocation = type === "extendedTextMessage" && content.includes("locationMessage")
 const isQuotedProduct = type === "extendedTextMessage" && content.includes("productMessage")
+const ytdl = require('ytdl-core');
 
 const cell = `${info.key.id.length > 21 ? 'Android' : info.key.id.substring(0, 2) == '3A' ? 'IOS' : 'WhatsApp web'}`
 
@@ -855,7 +856,6 @@ console.log(e)
 break
 
 //DOWNLOADS
-const ytdl = require('ytdl-core');
 
 case 'play':
 // if(!q) return enviar('Adicione um link ou um nome do YouTube.')
@@ -937,7 +937,7 @@ owgi = await getFileBuffer(boij, 'video')
 let encmedia = await sendSticker(conn, from, owgi, info, { packname: pack})
 await fs.unlinkSync(encmedia)
 } else {
-enviar(`Você precisa enviar ou marcar uma imagem ou vídeo com no máximo 10 segundos`)
+enviar(`Você precisa enviar ou marcar uma imagem, é uma figurinha não um filme, vídeo com no máximo 10 segundos`)
 }
 break
 
