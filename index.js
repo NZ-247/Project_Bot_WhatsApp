@@ -841,7 +841,7 @@ case 'gerargp':
 if(!q) return enviar(`Use o comando da seguinte forma. Exemplo: ${prefix + command} anime`)
 async function gerarGroup() {
 
-let data = await fetchJson(`https://yumeko-api.onrender.com/api/pesquisa/gpwhatsapp?nome=${q}&apikey=freekey`)
+let data = await fetchJson(`https://yumeko-api.onrender.com/api/pesquisa/gpwhatsapp?nome=${q}&apikey=PWmRfQJZZX`)
 gptext = `RESULTADO DE: ${q}\n\n`
 for(let a of data) {
 gptext += `${a.nome}\n----------------------------------------------\ndescription: ${a.descrição}\n----------------------------------------------\nURL: ${a.link}\n----------------------------------------------`
@@ -891,7 +891,7 @@ break
 
 case 'soundcloud':
 if(!q) return enviar('Adicione um link de SoundCloud.')
-tkk = await fetchJson(`https://yumeko-api.onrender.com/api/dl/sound?link=${q}&apikey=freekey`)
+tkk = await fetchJson(`https://yumeko-api.onrender.com/api/dl/sound?link=${q}&apikey=PWmRfQJZZX`)
 
 enviar(hah.espere)
 await sleep(100)
@@ -1091,7 +1091,7 @@ case 'gerarnick':
 case 'fazernick':
 nick = args.join(' ')
 if(!nick) return enviar('Escreva o Nick ou nome que você quer personalizar.')
-let jogp = fetchJson(`https://yumeko-api.onrender.com/api/ferramenta/stilodetxt?nome=${nick}&apikey=freekey`)
+let jogp = fetchJson(`https://yumeko-api.onrender.com/api/ferramenta/stilodetxt?nome=${nick}&apikey=PWmRfQJZZX`)
 var emoji = `🔮`
 //nicks = `${jo.data}`
 console.log(jogp)
@@ -1116,7 +1116,7 @@ case 'orgy':
 case 'jahy':
 enviar(hah.espere)
 await sleep(100)
-yume_api = await getBuffer(`https://yumeko-api.onrender.com/api/hentai/${command}?apikey=freekey`)
+yume_api = await getBuffer(`https://yumeko-api.onrender.com/api/hentai/${command}?apikey=PWmRfQJZZX`)
 conn.sendMessage(from, {image: yume_api, caption: `Veja mais em: https://yumeko-api.onrender.com ! `}, {quoted: selo})
 break
 
