@@ -1,0 +1,40 @@
+
+✧════════════•❁❀❁•════════════✧
+
+Abaixo Estão Os Comandos de Instalação do Bot, Siga Os Comandos Com Atenção.
+
+
+[🩸] 1° COMANDO [🩸]
+
+termux-setup-storage
+
+E permite.
+
+[🩸] 2° COMANDO [🩸]
+
+cd /sdcard/Download/base
+
+[🩸] 3° COMANDO [🩸]
+
+sh instalar.sh
+
+Vai precisar digitar y e confirmar toda vez que pedir.
+
+[🩸] 4° COMANDO [🩸]
+
+sh start.sh
+
+[🩸]  NOSSO GRUPO NO WHTS [🩸]
+
+https://chat.whatsapp.com/KBGS5RmavL19S465HfVTRe
+https://chat.whatsapp.com/KBGS5RmavL19S465HfVTRe
+https://chat.whatsapp.com/KBGS5RmavL19S465HfVTRe
+https://chat.whatsapp.com/KBGS5RmavL19S465HfVTRe
+https://chat.whatsapp.com/KBGS5RmavL19S465HfVTRe
+https://chat.whatsapp.com/KBGS5RmavL19S465HfVTRe
+
+SE DEU CERTO
+SEGUE NO INSTA BB
+@YURI.ARCEU
+
+✧════════════•❁❀❁•════════════✧
