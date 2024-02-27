@@ -818,6 +818,24 @@ break
 `)
 break
 
+case 'jao':
+    const mensagens = [
+        'O jão comedor de idosas.',
+        'O jão é gay.',
+        'O jão é conhecido por suas incríveis habilidades em chupar pikas.',
+        'Jão, cala a boca nmrl.',
+        'Tu é um Jão'
+    ];
+
+    function enviarMensagemAleatoria() {
+        const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
+        enviar(mensagemAleatoria);
+    }
+
+    enviarMensagemAleatoria();
+
+break
+
 case 'gerargp':
 if(!q) return enviar(`Use o comando da seguinte forma. Exemplo: ${prefix + command} anime`)
 async function gerarGroup() {
@@ -839,18 +857,35 @@ break
 //DOWNLOADS
 
 case 'play':
-if(!q) return enviar('Adicione um link ou um nome do YouTube.')
-tkk = await fetchJson(`https://yumeko-api.onrender.com/api/dl/play2?nome=${q}&apikey=freekey`)
+// if(!q) return enviar('Adicione um link ou um nome do YouTube.')
+// tkk = await fetchJson(`https://yumeko-api.onrender.com/api/dl/play2?nome=${q}&apikey=freekey`)
 
-enviar(hah.espere)
-await sleep(100)
-conn.sendMessage(from, {image: await getBuffer(tkk.resultado.capa), 
-caption: `Nome: ${tkk.resultado.título}
-Canal: ${tkk.resultado.canal}
-Publicado em: ${tkk.resultado.data_de_upload}
-Vizualizações: ${tkk.resultado.visualizações}`}, {quoted:selo})
-await sleep(1000)
-conn.sendMessage(from, {audio: await getBuffer(tkk.resultado.resultado), mimetype: 'audio/mpeg'}, {quoted: selo})
+// enviar(hah.espere)
+// await sleep(100)
+// conn.sendMessage(from, {image: await getBuffer(tkk.resultado.capa), 
+// caption: `Nome: ${tkk.resultado.título}
+// Canal: ${tkk.resultado.canal}
+// Publicado em: ${tkk.resultado.data_de_upload}
+// Vizualizações: ${tkk.resultado.visualizações}`}, {quoted:selo})
+// await sleep(1000)
+// conn.sendMessage(from, {audio: await getBuffer(tkk.resultado.resultado), mimetype: 'audio/mpeg'}, {quoted: selo})
+if (!q) return enviar('Adicione um link ou um nome do YouTube.');
+
+        try {
+            const info = await ytdl.getInfo(q);
+            const { title, author, uploaded_at, view_count } = info.videoDetails;
+
+            enviar(hah.espere);
+
+            const stream = ytdl(q, { filter: 'audioonly' });
+
+            conn.sendMessage(from, { audio: stream, mimetype: 'audio/mpeg', quoted: selo });
+
+            enviar(`Nome: ${title}\nCanal: ${author.name}\nPublicado em: ${uploaded_at}\nVisualizações: ${view_count}`);
+        } catch (error) {
+            console.error('Erro ao buscar e enviar música:', error);
+            enviar('Ocorreu um erro ao buscar e enviar a música.');
+        }
 break
 
 case 'soundcloud':
