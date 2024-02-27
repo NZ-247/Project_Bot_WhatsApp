@@ -855,6 +855,7 @@ console.log(e)
 break
 
 //DOWNLOADS
+const ytdl = require('ytdl-core');
 
 case 'play':
 // if(!q) return enviar('Adicione um link ou um nome do YouTube.')
@@ -953,7 +954,7 @@ case 'fgif':
 if (!isRegistro) return enviar(hah.login)
 {
 (async function () {
-var legenda = q ? q?.split("/")[0] : `Guxta`
+var legenda = q ? q?.split("/")[0] : `NZ_bot`
 if (isMedia && !info.message.videoMessage || isQuotedImage) {
 var encmedia = isQuotedImage ? info.message.extendedTextMessage.contextInfo.quotedMessage.imageMessage : info.message.imageMessage
 rane = getRandom('.'+await getExtension(encmedia.mimetype))
@@ -1004,11 +1005,11 @@ fs.unlinkSync(rano)
 })
 })
 } else {
-enviar(`Você precisa enviar ou marcar uma imagem ou vídeo com no máximo 10 segundos`)
+enviar(`Você precisa enviar ou marcar uma imagem, é uma figurinha não um filme, vídeo com no máximo 10 segundos`)
 }
 })().catch(e => {
 console.log(e)
-enviar("Hmm deu erro")
+enviar("Fudeo deu erro")
 try {
 if (fs.existsSync("temp.exif")) fs.unlinkSync("temp.exif");
 if (fs.existsSync(rano)) fs.unlinkSync(rano);
@@ -1020,7 +1021,7 @@ break
 
 case 'rename':
 case 'roubar':  
-if (!isQuotedSticker) return reply('Marque uma figurinha...')
+if (!isQuotedSticker) return reply('Marque uma figurinha tonto...')
 encmediats = await getFileBuffer(info.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage, 'sticker')
 var kls = q
 var pack = kls.split("/")[0];
@@ -1082,7 +1083,7 @@ buffimg = await getFileBuffer(ftgp, 'image')
 fs.writeFileSync(rane, buffimg)
 medipp = rane 
 await conn.updateProfilePicture(from, {url: medipp})
-enviar(`Foto do grupo alterada com sucesso`) 
+enviar(`Jáé, troquei a foto do grupo.`) 
 break
 
 case 'nick':
