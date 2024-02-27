@@ -16,7 +16,7 @@ apt update -y
 apt install nodejs -y 
 apt install nodejs-lts -y 
 apt install ffmpeg -y
-npm install ytdl-core
+npm install ytdl-core@latest -y
 apt install wget -y 
 apt install git -y
 echo $GREEN"Hmmm tudo certo pode dar npm start, escanear o código e se divirta com o bot :)"
