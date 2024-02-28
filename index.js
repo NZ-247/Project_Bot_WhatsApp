@@ -538,11 +538,75 @@ bla = fs.readFileSync(figu)
 conn.sendMessage(from, {sticker: bla}, {quoted: info})
 }
 
+//Funções de commandos.
 
 function enviarMensagemAleatoria(mensagens) {
     const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
     enviar(mensagemAleatoria);
 }
+
+async function stickerToImageWithFFmpeg(stickerPath, outputPath) {
+    return new Promise((resolve, reject) => {
+        exec(`ffmpeg -i ${stickerPath} ${outputPath}`, (error, stdout, stderr) => {
+            if (error) {
+                console.error('Erro ao converter figurinha para imagem:', error);
+                reject(error);
+                return;
+            }
+            console.log('Figurinha convertida para imagem com sucesso!');
+            resolve();
+        });
+    });
+}
+
+const Jimp = require('jimp');
+
+
+async function adicionarLegendaPosicionada(imagePath, texto, outputPath) {
+    try {
+        const image = await Jimp.read(imagePath);
+        const font = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE); // Fonte e tamanho da legenda
+
+        let parteSuperior, parteInferior;
+
+        if (texto.includes('|')) {
+            // Divide o texto em duas partes usando o '|' como separador
+            const partes = texto.split('|');
+            parteSuperior = partes[0].trim();
+            parteInferior = partes[1].trim();
+        } else {
+            parteSuperior = texto.trim();
+            parteInferior = null; // Define a parte inferior como null se não houver '|'
+        }
+
+        // Altura da imagem
+        const alturaImagem = image.getHeight();
+
+        // Altura da fonte
+        const alturaFonte = Jimp.measureTextHeight(font, parteSuperior, 300);
+
+        // Posicionamento da legenda superior
+        const ySuperior = 10;
+
+        // Posicionamento da legenda inferior
+        let yInferior;
+        if (parteInferior) {
+            yInferior = alturaImagem - alturaFonte - 10;
+        }
+
+        // Adiciona as legendas na imagem (posição x, posição y, legenda, fonte)
+        image.print(font, 10, ySuperior, parteSuperior, 300);
+        if (parteInferior) {
+            image.print(font, 10, yInferior, parteInferior, 300);
+        }
+
+        // Salva a imagem com as legendas
+        await image.writeAsync(outputPath);
+        console.log('Legendas adicionadas com sucesso!');
+    } catch (error) {
+        console.error('Erro ao adicionar legendas:', error);
+    }
+};
 
 
 
@@ -584,6 +648,18 @@ break
 
 case 'figurinha':
 await conn.sendMessage(from, {sticker: fs.readFileSync('./Example/exemplo.webp')}, {quoted: info });
+break
+
+case 'envf':
+    if (!q) return await conn.sendMessage(from, 'Por favor, adicione o nome da figurinha após o comando.', {quoted: info});
+    const caminho = `./datab/figurinhas/${q}.webp`; // Substitua pelo caminho do diretório onde estão suas figurinhas
+    try {
+        const figurinha = fs.readFileSync(caminho); // Lê o arquivo da figurinha
+        await conn.sendMessage(from, {sticker: figurinha}, {quoted: info });
+    } catch (error) {
+        console.error(error);
+        await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', {quoted: info});
+    }
 break
 
 case 'documentozip':
@@ -861,6 +937,35 @@ case 'alan':
     enviarMensagemAleatoria(msgalan);
 break
 
+case 'toimg':
+    if (!isQuotedSticker) {
+        enviar('Por favor, responda a uma figurinha com este comando para convertê-la de volta para uma imagem.');
+        return;
+    }
+
+    try {
+        // Nome do arquivo de saída para a imagem convertida
+        const outputImagePath = './converted_image.png';
+
+        // Baixa a figurinha para um arquivo temporário
+        const stickerData = await conn.downloadMediaMessage(info.message.extendedTextMessage.contextInfo);
+        const stickerPath = './temp_sticker.webp';
+        fs.writeFileSync(stickerPath, stickerData, 'base64');
+
+        // Converte a figurinha para uma imagem usando ffmpeg
+        await stickerToImageWithFFmpeg(stickerPath, outputImagePath);
+
+        // Envia a imagem convertida de volta
+        conn.sendMessage(from, { image: fs.readFileSync(outputImagePath) }, MessageType.image);
+
+        // Exclui os arquivos temporários
+        fs.unlinkSync(stickerPath);
+        fs.unlinkSync(outputImagePath);
+    } catch (error) {
+        console.error('Erro ao lidar com o comando toimg:', error);
+        enviar('Ocorreu um erro ao converter a figurinha para imagem.');
+    }
+break
 
 case 'gerargp':
 if(!q) return enviar(`Use o comando da seguinte forma. Exemplo: ${prefix + command} anime`)
@@ -1062,53 +1167,6 @@ if (fs.existsSync(media)) fs.unlinkSync(media);
 })
 }
 break
-
-// Função para adicionar legenda com posicionamento personalizado a uma imagem
-async function adicionarLegendaPosicionada(imagePath, texto, outputPath) {
-    try {
-        const image = await Jimp.read(imagePath);
-        const font = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE); // Fonte e tamanho da legenda
-
-        let parteSuperior, parteInferior;
-
-        if (texto.includes('|')) {
-            // Divide o texto em duas partes usando o '|' como separador
-            const partes = texto.split('|');
-            parteSuperior = partes[0].trim();
-            parteInferior = partes[1].trim();
-        } else {
-            parteSuperior = texto.trim();
-            parteInferior = null; // Define a parte inferior como null se não houver '|'
-        }
-
-        // Altura da imagem
-        const alturaImagem = image.getHeight();
-
-        // Altura da fonte
-        const alturaFonte = Jimp.measureTextHeight(font, parteSuperior, 300);
-
-        // Posicionamento da legenda superior
-        const ySuperior = 10;
-
-        // Posicionamento da legenda inferior
-        let yInferior;
-        if (parteInferior) {
-            yInferior = alturaImagem - alturaFonte - 10;
-        }
-
-        // Adiciona as legendas na imagem (posição x, posição y, legenda, fonte)
-        image.print(font, 10, ySuperior, parteSuperior, 300);
-        if (parteInferior) {
-            image.print(font, 10, yInferior, parteInferior, 300);
-        }
-
-        // Salva a imagem com as legendas
-        await image.writeAsync(outputPath);
-        console.log('Legendas adicionadas com sucesso!');
-    } catch (error) {
-        console.error('Erro ao adicionar legendas:', error);
-    }
-};
 
 
 case 'fmeme':
