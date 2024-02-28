@@ -81,7 +81,7 @@ numeroDono = config.numeroDono
 
 
 //======================================\\
-const logo = fs.readFileSync('./datab/files/fotos/menu.png')
+const logo = fs.readFileSync('./datab/files/fotos/menu.pjg')
 const { menu } = require('./datab/files/menu/menu.js');
 //======================================\\
 
@@ -146,7 +146,7 @@ console.log(`   ${chalk.cyan("- Código")}: ${code}`);
 rl.close();
 }
 
-const banner = cfonts.render(("Base|guxta"), {
+const banner = cfonts.render(("Minah|pika"), {
 font: "block",
 align: "center",
 colors: [`yellow`,`white`,`yellow`],
@@ -620,10 +620,10 @@ Tenha ${tenha}
 break
 
 
-case 'menu':
-if (!isRegistro) return enviar(hah.login)
-conn.sendMessage(from, {image: logo, caption:menu(pushname, sender, NomeBot, patt, numeroDono, nomeDono, prefixo)}, {quoted:info})
-break
+// case 'menu':
+// if (!isRegistro) return enviar(hah.login)
+// conn.sendMessage(from, {image: logo, caption:menu(pushname, sender, NomeBot, patt, numeroDono, nomeDono, prefixo)}, {quoted:info})
+// break
 
 
 //LEVEL
@@ -652,16 +652,13 @@ case 'level':
 if (!isRegistro) return enviar(hah.login)
 const getLevel = getLevelingLevel(sender)
 theping = `
-╭━─━─━─≪◇≫─━─━─━
-│╭─────────────╮
-││Nome:* : ${pushname}
-││Numero* : ${sender.split("@")[0]}
-││Patente:* : ${patt} 
-││Level* : ${getLevel} 
-││Xp* :  ${getLevelingXp(sender)}
-│╰─────────────╯
-╰━─━─━─≪◇≫─━─━─━╯
-`
+╭─────────────╮
+│Nome:* : ${pushname}
+│Numero* : ${sender.split("@")[0]}
+│Patente:* : ${patt} 
+│Level* : ${getLevel} 
+│Xp* :  ${getLevelingXp(sender)}
+╰─────────────╯`
 conn.sendMessage(from, {text: theping}, {quoted:info})
 break
 
@@ -687,14 +684,10 @@ if (!isRegistro) return enviar(hah.login)
 timestampe = speed();
 latensie = speed() - timestampe
 uptime = process.uptime()
-toping = `
-╭━─━─━─≪◇≫─━─━─━
-│╭─────────────╮
-││Velocidade: ${latensie.toFixed(4)}
-││${!isGroup ? `Usuario: ${pushname}` :  `Grupo: ${groupName}`}
-││Tempo Ativo: ${runtime(uptime)}
-│╰─────────────╯
-╰━─━─━─≪◇≫─━─━─━╯`
+toping = `Velocidade: ${latensie.toFixed(4)}
+${!isGroup ? `Usuario: ${pushname}` :  `Grupo: ${groupName}`}
+Tempo Ativo: ${runtime(uptime)}`
+
 conn.sendMessage(from, {text: toping},{quoted: selo})
 break
 
@@ -849,6 +842,11 @@ const msgalan = [
     'O mais foda do Grupo;)'
 ];
 
+function enviarMensagemAleatoria(mensagens) {
+    const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
+    enviar(mensagemAleatoria);
+}
+
 case 'jao':
         enviarMensagemAleatoria(msgjao);
         break;
@@ -865,10 +863,6 @@ case 'jao':
         // Caso padrão se nenhum caso corresponder ao comando
         break;
 
-function enviarMensagemAleatoria(mensagens) {
-    const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
-    enviar(mensagemAleatoria);
-}
 
 case 'gerargp':
 if(!q) return enviar(`Use o comando da seguinte forma. Exemplo: ${prefix + command} anime`)
@@ -1051,6 +1045,70 @@ if (fs.existsSync(media)) fs.unlinkSync(media);
 })
 }
 break
+
+case 'fmeme':
+    if (!isRegistro) return enviar(hah.login);
+    {
+        (async function () {
+            var legenda = q ? q?.split("/")[0] : `NZ_bot`;
+
+            if (isMedia && !info.message.videoMessage || isQuotedImage) {
+                var encmedia = isQuotedImage ? info.message.extendedTextMessage.contextInfo.quotedMessage.imageMessage : info.message.imageMessage;
+                rane = getRandom('.'+await getExtension(encmedia.mimetype));
+                buffimg = await getFileBuffer(encmedia, 'image');
+                fs.writeFileSync(rane, buffimg);
+                rano = getRandom('.webp');
+                await adicionarLegendaPosicionada(rane, legenda, rano); // Adiciona legenda à imagem
+                conn.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: info});
+                fs.unlinkSync(rane);
+                fs.unlinkSync(rano);
+            } else {
+                enviar(`Você precisa enviar ou marcar uma imagem`);
+            }
+        })().catch(e => {
+            console.log(e);
+            enviar("Deu não menó, foi mal...");
+            try {
+                if (fs.existsSync("temp.exif")) fs.unlinkSync("temp.exif");
+                if (fs.existsSync(rano)) fs.unlinkSync(rano);
+                if (fs.existsSync(media)) fs.unlinkSync(media);
+            } catch {}
+        });
+    }
+break;
+
+case 'smeme':
+    if (!isRegistro) return enviar(hah.login);
+    {
+        (async function () {
+            var legenda = q ? q?.split("/")[0] : `NZ_bot`;
+
+            if (isMedia && info.message.videoMessage.seconds < 11 || isQuotedVideo && info.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 35) {
+                var encmedia = isQuotedVideo ? info.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage : info.message.videoMessage;
+                rane = getRandom('.'+await getExtension(encmedia.mimetype));
+                buffimg = await getFileBuffer(encmedia, 'video');
+                fs.writeFileSync(rane, buffimg);
+                rano = getRandom('.webp');
+                await ffmpeg(`./${rane}`).inputFormat(rane.split('.')[1]);
+                await adicionarLegendaPosicionada(rane, legenda, rano); // Adiciona legenda ao vídeo
+                conn.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: info});
+                fs.unlinkSync(rane);
+                fs.unlinkSync(rano);
+            } else {
+                enviar(`Você precisa enviar ou marcar um vídeo com no máximo 10 segundos`);
+            }
+        })().catch(e => {
+            console.log(e);
+            enviar("Deu não menó, foi mal...");
+            try {
+                if (fs.existsSync("temp.exif")) fs.unlinkSync("temp.exif");
+                if (fs.existsSync(rano)) fs.unlinkSync(rano);
+                if (fs.existsSync(media)) fs.unlinkSync(media);
+            } catch {}
+        });
+    }
+break;
+
 
 case 'rename':
 case 'roubar':  
