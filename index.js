@@ -429,9 +429,11 @@ toy: `Pesquisando sua ficha de ${command}, aguarde...`
 }
 
 //======================================\\
-if(isGroup && isCmd) {
-if(isFiltered(sender)) return enviar(`*Não floda CRLH...*`)
-addFilter(sender)}
+let cooldownAtivo = true;
+if (isGroup && isCmd && cooldownAtivo) {
+    if (isFiltered(sender)) return enviar(`*Não floda CRLH...*`)
+    addFilter(sender);
+}
 
 if (isGroup && isCmd) console.log(`
 ${color(`╭━─━─━─≪◇≫─━─━─━╮ `,`white`)}
@@ -848,20 +850,16 @@ function enviarMensagemAleatoria(mensagens) {
 }
 
 case 'jao':
-        enviarMensagemAleatoria(msgjao);
-        break;
+    enviarMensagemAleatoria(msgjao);
+break
 
-    case 'bruno':
-        enviarMensagemAleatoria(msgbruno);
-        break;
+case 'bruno':
+    enviarMensagemAleatoria(msgbruno);
+break
 
-    case 'alan':
-        enviarMensagemAleatoria(msgalan);
-        break;
-
-    default:
-        // Caso padrão se nenhum caso corresponder ao comando
-        break;
+case 'alan':
+    enviarMensagemAleatoria(msgalan);
+break
 
 
 case 'gerargp':
@@ -882,6 +880,22 @@ console.log(e)
 })
 break
 
+case 'cooldown':
+    if (!q) return enviar('Por favor, especifique se deseja ativar ou desativar o cooldown. Use "0" para desativar e qualquer valor maior que zero para ativar.');
+    
+    const valor = parseInt(q);
+    if (isNaN(valor)) return enviar('Por favor, forneça um valor numérico válido para ativar o cooldown.');
+
+    if (valor <= 0) {
+        cooldownAtivo = false;
+        enviar('Cooldown desativado. Os membros podem enviar mensagens sem restrições.');
+    } else {
+        cooldownAtivo = true;
+        enviar('Cooldown ativado. Os membros não podem mais enviar mensagens repetidas rapidamente.');
+    }
+break
+
+
 //DOWNLOADS
 
 case 'play':
@@ -897,23 +911,26 @@ case 'play':
 // Vizualizações: ${tkk.resultado.visualizações}`}, {quoted:selo})
 // await sleep(1000)
 // conn.sendMessage(from, {audio: await getBuffer(tkk.resultado.resultado), mimetype: 'audio/mpeg'}, {quoted: selo})
-if (!q) return enviar('Adicione um link ou um nome do YouTube.');
 
-        try {
-            const info = await ytdl.getInfo(q);
-            const { title, author, uploaded_at, view_count } = info.videoDetails;
+    if (!q) return enviar('Adicione um link ou um nome do YouTube.');
 
-            enviar(hah.espere);
+    try {
+        const info = await ytdl.getInfo(q);
+        const { title, author, uploaded_at, view_count } = info.videoDetails;
 
-            const stream = ytdl(q, { filter: 'audioonly' });
+        enviar(hah.espere);
 
-            conn.sendMessage(from, { audio: stream, mimetype: 'audio/mpeg', quoted: selo });
+        // Use a função `ytdl.downloadFromInfo` para baixar o áudio do vídeo
+        const stream = ytdl.downloadFromInfo(info, { filter: 'audioonly' });
 
-            enviar(`Nome: ${title}\nCanal: ${author.name}\nPublicado em: ${uploaded_at}\nVisualizações: ${view_count}`);
-        } catch (error) {
-            console.error('Erro ao buscar e enviar música:', error);
-            enviar('Ocorreu um erro ao buscar e enviar a música.');
-        }
+        // Envie o áudio baixado como mensagem
+        conn.sendMessage(from, { audio: stream, mimetype: 'audio/mpeg', quoted: selo });
+
+        enviar(`Nome: ${title}\nCanal: ${author.name}\nPublicado em: ${uploaded_at}\nVisualizações: ${view_count}`);
+    } catch (error) {
+        console.error('Erro ao buscar e enviar música:', error);
+        enviar('Ocorreu um erro ao buscar e enviar a música.');
+    }
 break
 
 case 'soundcloud':
@@ -1046,11 +1063,62 @@ if (fs.existsSync(media)) fs.unlinkSync(media);
 }
 break
 
+// Função para adicionar legenda com posicionamento personalizado a uma imagem
+async function adicionarLegendaPosicionada(imagePath, texto, outputPath) {
+    try {
+        const image = await Jimp.read(imagePath);
+        const font = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE); // Fonte e tamanho da legenda
+
+        let parteSuperior, parteInferior;
+
+        if (texto.includes('|')) {
+            // Divide o texto em duas partes usando o '|' como separador
+            const partes = texto.split('|');
+            parteSuperior = partes[0].trim();
+            parteInferior = partes[1].trim();
+        } else {
+            parteSuperior = texto.trim();
+            parteInferior = null; // Define a parte inferior como null se não houver '|'
+        }
+
+        // Altura da imagem
+        const alturaImagem = image.getHeight();
+
+        // Altura da fonte
+        const alturaFonte = Jimp.measureTextHeight(font, parteSuperior, 300);
+
+        // Posicionamento da legenda superior
+        const ySuperior = 10;
+
+        // Posicionamento da legenda inferior
+        let yInferior;
+        if (parteInferior) {
+            yInferior = alturaImagem - alturaFonte - 10;
+        }
+
+        // Adiciona as legendas na imagem (posição x, posição y, legenda, fonte)
+        image.print(font, 10, ySuperior, parteSuperior, 300);
+        if (parteInferior) {
+            image.print(font, 10, yInferior, parteInferior, 300);
+        }
+
+        // Salva a imagem com as legendas
+        await image.writeAsync(outputPath);
+        console.log('Legendas adicionadas com sucesso!');
+    } catch (error) {
+        console.error('Erro ao adicionar legendas:', error);
+    }
+};
+
+
 case 'fmeme':
     if (!isRegistro) return enviar(hah.login);
     {
         (async function () {
-            var legenda = q ? q?.split("/")[0] : `NZ_bot`;
+            // Extrair o texto e a legenda separados pelo caractere '|'
+            const partes = q.split('|');
+            const textoSuperior = partes[0].trim();
+            const legendaInferior = partes[1]?.trim() || '';
 
             if (isMedia && !info.message.videoMessage || isQuotedImage) {
                 var encmedia = isQuotedImage ? info.message.extendedTextMessage.contextInfo.quotedMessage.imageMessage : info.message.imageMessage;
@@ -1058,7 +1126,13 @@ case 'fmeme':
                 buffimg = await getFileBuffer(encmedia, 'image');
                 fs.writeFileSync(rane, buffimg);
                 rano = getRandom('.webp');
-                await adicionarLegendaPosicionada(rane, legenda, rano); // Adiciona legenda à imagem
+
+                // Adiciona texto superior centralizado
+                await adicionarTextoPosicionado(rane, textoSuperior, textosuperior);
+
+                // Adiciona legenda inferior centralizada
+                await adicionarTextoPosicionado(rane, legendaInferior, legendaInferior);
+
                 conn.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: info});
                 fs.unlinkSync(rane);
                 fs.unlinkSync(rano);
@@ -1077,37 +1151,42 @@ case 'fmeme':
     }
 break;
 
-case 'smeme':
+
+case 'sani':
     if (!isRegistro) return enviar(hah.login);
     {
         (async function () {
-            var legenda = q ? q?.split("/")[0] : `NZ_bot`;
-
-            if (isMedia && info.message.videoMessage.seconds < 11 || isQuotedVideo && info.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 35) {
+            // Verifica se é um vídeo ou GIF curto
+            if ((isMedia && info.message.videoMessage.seconds < 11) || (isQuotedVideo && info.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11)) {
+                // Extrai o vídeo da mensagem
                 var encmedia = isQuotedVideo ? info.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage : info.message.videoMessage;
+                // Salva o vídeo temporariamente
                 rane = getRandom('.'+await getExtension(encmedia.mimetype));
                 buffimg = await getFileBuffer(encmedia, 'video');
                 fs.writeFileSync(rane, buffimg);
+                // Define o nome do arquivo de saída
                 rano = getRandom('.webp');
+                // Converte o vídeo em uma figurinha animada
                 await ffmpeg(`./${rane}`).inputFormat(rane.split('.')[1]);
-                await adicionarLegendaPosicionada(rane, legenda, rano); // Adiciona legenda ao vídeo
+                // Envia a figurinha animada
                 conn.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: info});
+                // Remove os arquivos temporários
                 fs.unlinkSync(rane);
                 fs.unlinkSync(rano);
             } else {
-                enviar(`Você precisa enviar ou marcar um vídeo com no máximo 10 segundos`);
+                enviar(`É uma figurinha não um filme, Você precisa enviar ou marcar um vídeo ou GIF com no máximo 10 segundos`);
             }
         })().catch(e => {
             console.log(e);
             enviar("Deu não menó, foi mal...");
             try {
-                if (fs.existsSync("temp.exif")) fs.unlinkSync("temp.exif");
+                if (fs.existsSync(rane)) fs.unlinkSync(rane);
                 if (fs.existsSync(rano)) fs.unlinkSync(rano);
-                if (fs.existsSync(media)) fs.unlinkSync(media);
             } catch {}
         });
     }
 break;
+
 
 
 case 'rename':
