@@ -146,7 +146,7 @@ console.log(`   ${chalk.cyan("- Código")}: ${code}`);
 rl.close();
 }
 
-const banner = cfonts.render(("Minah|pika"), {
+const banner = cfonts.render(("Conectado|na minha pika"), {
 font: "block",
 align: "center",
 colors: [`yellow`,`white`,`yellow`],
@@ -429,7 +429,7 @@ toy: `Pesquisando sua ficha de ${command}, aguarde...`
 }
 
 //======================================\\
-let cooldownAtivo = true;
+let cooldownAtivo = False;
 if (isGroup && isCmd && cooldownAtivo) {
     if (isFiltered(sender)) return enviar(`*Não floda CRLH...*`)
     addFilter(sender);
@@ -536,6 +536,12 @@ caption: caption
 const enviarfig = async (figu, tag) => {
 bla = fs.readFileSync(figu)
 conn.sendMessage(from, {sticker: bla}, {quoted: info})
+}
+
+
+function enviarMensagemAleatoria(mensagens) {
+    const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
+    enviar(mensagemAleatoria);
 }
 
 
@@ -814,50 +820,44 @@ break
 `)
 break
 
-const msgjao = [
-    'O jão comedor de idosas.',
-    'O jão é gay.',
-    'O jão é conhecido por suas incríveis habilidades em chupar pikas.',
-    'Jão, cala a boca nmrl.',
-    'Tu é um Jão',
-    'Valorize sua vida, vote na expulsão do Jão.',
-    'Não sei vocês mas o Jão é baitola'
-];
-
-const msgbruno = [
-    'Bruno comedor de Mãe alheia.',
-    'O Comedor de Índia.',
-    'O Bruno é conhecido por suas incríveis habilidades de conquistar mães.',
-    'Bruno, O gostosão.',
-    'Tá aí um mlk que eu dou mó valor.',
-    'Esconsa sua mãe, o Bruno tá ON!',
-    'O Cara mais gostoso do Grupo;)'
-];
-
-const msgalan = [
-    'Comedor de Prima',
-    'Eae, tua prima tá bem?',
-    'Comedor de tia',
-    'Eae, tua tia tá bem?',
-    'Escondam suas tias, O Alan tá ON!',
-    'Escondam suas primas, O Alan tá ON!',
-    'O mais foda do Grupo;)'
-];
-
-function enviarMensagemAleatoria(mensagens) {
-    const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
-    enviar(mensagemAleatoria);
-}
 
 case 'jao':
+    const msgjao = [
+        'O jão comedor de idosas.',
+        'O jão é gay.',
+        'O jão é conhecido por suas incríveis habilidades em chupar pikas.',
+        'Jão, cala a boca nmrl.',
+        'Tu é um Jão',
+        'Valorize sua vida, vote na expulsão do Jão.',
+        'Não sei vocês mas o Jão é baitola',
+        'Vai tmnc @556696625255'
+    ];
     enviarMensagemAleatoria(msgjao);
 break
 
 case 'bruno':
+    const msgbruno = [
+        'Bruno comedor de Mãe alheia.',
+        'O Comedor de Índia.',
+        'O Bruno é conhecido por suas incríveis habilidades de conquistar mães.',
+        'Bruno, O gostosão.',
+        'Tá aí um mlk que eu dou mó valor.',
+        'Esconsa sua mãe, o Bruno tá ON!',
+        'O Cara mais gostoso do Grupo;)'
+    ];
     enviarMensagemAleatoria(msgbruno);
 break
 
 case 'alan':
+    const msgalan = [
+        'Comedor de Prima',
+        'Eae, tua prima tá bem?',
+        'Comedor de tia',
+        'Eae, tua tia tá bem?',
+        'Escondam suas tias, O Alan tá ON!',
+        'Escondam suas primas, O Alan tá ON!',
+        'O mais foda do Grupo;)'
+    ];
     enviarMensagemAleatoria(msgalan);
 break
 
@@ -899,38 +899,38 @@ break
 //DOWNLOADS
 
 case 'play':
-// if(!q) return enviar('Adicione um link ou um nome do YouTube.')
-// tkk = await fetchJson(`https://yumeko-api.onrender.com/api/dl/play2?nome=${q}&apikey=freekey`)
+if(!q) return enviar('Adicione um link ou um nome do YouTube.')
+tkk = await fetchJson(`https://yumeko-api.onrender.com/api/dl/play2?nome=${q}&apikey=PWmRfQJZZX`)
 
-// enviar(hah.espere)
-// await sleep(100)
-// conn.sendMessage(from, {image: await getBuffer(tkk.resultado.capa), 
-// caption: `Nome: ${tkk.resultado.título}
-// Canal: ${tkk.resultado.canal}
-// Publicado em: ${tkk.resultado.data_de_upload}
-// Vizualizações: ${tkk.resultado.visualizações}`}, {quoted:selo})
-// await sleep(1000)
-// conn.sendMessage(from, {audio: await getBuffer(tkk.resultado.resultado), mimetype: 'audio/mpeg'}, {quoted: selo})
+enviar(hah.espere)
+await sleep(100)
+conn.sendMessage(from, {image: await getBuffer(tkk.resultado.capa), 
+caption: `Nome: ${tkk.resultado.título}
+Canal: ${tkk.resultado.canal}
+Publicado em: ${tkk.resultado.data_de_upload}
+Vizualizações: ${tkk.resultado.visualizações}`}, {quoted:selo})
+await sleep(1000)
+conn.sendMessage(from, {audio: await getBuffer(tkk.resultado.resultado), mimetype: 'audio/mpeg'}, {quoted: selo})
 
-    if (!q) return enviar('Adicione um link ou um nome do YouTube.');
+    // if (!q) return enviar('Adicione um link ou um nome do YouTube.');
 
-    try {
-        const info = await ytdl.getInfo(q);
-        const { title, author, uploaded_at, view_count } = info.videoDetails;
+    // try {
+    //     const info = await ytdl.getInfo(q);
+    //     const { title, author, uploaded_at, view_count } = info.videoDetails;
 
-        enviar(hah.espere);
+    //     enviar(hah.espere);
 
-        // Use a função `ytdl.downloadFromInfo` para baixar o áudio do vídeo
-        const stream = ytdl.downloadFromInfo(info, { filter: 'audioonly' });
+    //     // Use a função `ytdl.downloadFromInfo` para baixar o áudio do vídeo
+    //     const stream = ytdl.downloadFromInfo(info, { filter: 'audioonly' });
 
-        // Envie o áudio baixado como mensagem
-        conn.sendMessage(from, { audio: stream, mimetype: 'audio/mpeg', quoted: selo });
+    //     // Envie o áudio baixado como mensagem
+    //     conn.sendMessage(from, { audio: stream, mimetype: 'audio/mpeg', quoted: selo });
 
-        enviar(`Nome: ${title}\nCanal: ${author.name}\nPublicado em: ${uploaded_at}\nVisualizações: ${view_count}`);
-    } catch (error) {
-        console.error('Erro ao buscar e enviar música:', error);
-        enviar('Ocorreu um erro ao buscar e enviar a música.');
-    }
+    //     enviar(`Nome: ${title}\nCanal: ${author.name}\nPublicado em: ${uploaded_at}\nVisualizações: ${view_count}`);
+    // } catch (error) {
+    //     console.error('Erro ao buscar e enviar música:', error);
+    //     enviar('Ocorreu um erro ao buscar e enviar a música.');
+    // }
 break
 
 case 'soundcloud':
@@ -1149,7 +1149,7 @@ case 'fmeme':
             } catch {}
         });
     }
-break;
+break
 
 
 case 'sani':
