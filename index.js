@@ -81,7 +81,7 @@ numeroDono = config.numeroDono
 
 
 //======================================\\
-const logo = fs.readFileSync('./datab/files/fotos/menu.pjg')
+const logo = fs.readFileSync('./datab/files/fotos/menu.png')
 const { menu } = require('./datab/files/menu/menu.js');
 //======================================\\
 
@@ -345,7 +345,7 @@ const isQuotedSticker = type === "extendedTextMessage" && content.includes("stic
 const isQuotedContact = type === "extendedTextMessage" && content.includes("contactMessage")
 const isQuotedLocation = type === "extendedTextMessage" && content.includes("locationMessage")
 const isQuotedProduct = type === "extendedTextMessage" && content.includes("productMessage")
-const ytdl = require('ytdl-core');
+//const ytdl = require('ytdl-core');
 
 const cell = `${info.key.id.length > 21 ? 'Android' : info.key.id.substring(0, 2) == '3A' ? 'IOS' : 'WhatsApp web'}`
 
@@ -429,7 +429,7 @@ toy: `Pesquisando sua ficha de ${command}, aguarde...`
 }
 
 //======================================\\
-let cooldownAtivo = False;
+let cooldownAtivo = false;
 if (isGroup && isCmd && cooldownAtivo) {
     if (isFiltered(sender)) return enviar(`*Não floda CRLH...*`)
     addFilter(sender);
