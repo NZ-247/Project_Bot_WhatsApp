@@ -415,7 +415,7 @@ console.error(err)
 hah = {
 espere: `Calma aí Zé, Já eu mando...`,
 erro: `Procedimento falhou com sucesso, Fudeo, deu ERROR!`,
-admin: `Comando só para admins seu nó cego!`,
+admin: `Comando só para adm seu nó cego!`,
 botadm: `Comando só funciona quando o bot se torna Admin!`,
 login: `Você não está registrado, digite ${prefixo}login para usar meus comandos.`,
 grupo: `Este comando só pode ser usado em grupos.`,
@@ -1134,7 +1134,7 @@ rane = getRandom('.'+await getExtension(encmedia.mimetype))
 buffimg = await getFileBuffer(encmedia, 'video')
 fs.writeFileSync(rane, buffimg)
 rano = getRandom('.webp')
-await ffmpeg(`./${rane}`)
+// await ffmpeg(`./${rane}`)
 .inputFormat(rane.split('.')[1])
 exec(`ffmpeg -i ${rane} -vcodec libwebp -filter:v fps=fps=15 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 200:200 ${rano}`, (err) => {
 fs.unlinkSync(rane)
@@ -1186,10 +1186,10 @@ case 'fmeme':
                 rano = getRandom('.webp');
 
                 // Adiciona texto superior centralizado
-                await adicionarTextoPosicionado(rane, textoSuperior, textosuperior);
+                await adicionarLegendaPosicionada(rane, textoSuperior, textosuperior);
 
                 // Adiciona legenda inferior centralizada
-                await adicionarTextoPosicionado(rane, legendaInferior, legendaInferior);
+                await adicionarLegendaPosicionada(rane, legendaInferior, legendaInferior);
 
                 conn.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: info});
                 fs.unlinkSync(rane);
@@ -1208,43 +1208,6 @@ case 'fmeme':
         });
     }
 break
-
-
-case 'sani':
-    if (!isRegistro) return enviar(hah.login);
-    {
-        (async function () {
-            // Verifica se é um vídeo ou GIF curto
-            if ((isMedia && info.message.videoMessage.seconds < 11) || (isQuotedVideo && info.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11)) {
-                // Extrai o vídeo da mensagem
-                var encmedia = isQuotedVideo ? info.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage : info.message.videoMessage;
-                // Salva o vídeo temporariamente
-                rane = getRandom('.'+await getExtension(encmedia.mimetype));
-                buffimg = await getFileBuffer(encmedia, 'video');
-                fs.writeFileSync(rane, buffimg);
-                // Define o nome do arquivo de saída
-                rano = getRandom('.webp');
-                // Converte o vídeo em uma figurinha animada
-                await ffmpeg(`./${rane}`).inputFormat(rane.split('.')[1]);
-                // Envia a figurinha animada
-                conn.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: info});
-                // Remove os arquivos temporários
-                fs.unlinkSync(rane);
-                fs.unlinkSync(rano);
-            } else {
-                enviar(`É uma figurinha não um filme, Você precisa enviar ou marcar um vídeo ou GIF com no máximo 10 segundos`);
-            }
-        })().catch(e => {
-            console.log(e);
-            enviar("Deu não menó, foi mal...");
-            try {
-                if (fs.existsSync(rane)) fs.unlinkSync(rane);
-                if (fs.existsSync(rano)) fs.unlinkSync(rano);
-            } catch {}
-        });
-    }
-break;
-
 
 
 case 'rename':
