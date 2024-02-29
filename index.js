@@ -1135,7 +1135,7 @@ buffimg = await getFileBuffer(encmedia, 'video')
 fs.writeFileSync(rane, buffimg)
 rano = getRandom('.webp')
 // await ffmpeg(`./${rane}`)
-.inputFormat(rane.split('.')[1])
+//.inputFormat(rane.split('.')[1])
 exec(`ffmpeg -i ${rane} -vcodec libwebp -filter:v fps=fps=15 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 200:200 ${rano}`, (err) => {
 fs.unlinkSync(rane)
 let json = {
