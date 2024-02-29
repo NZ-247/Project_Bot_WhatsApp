@@ -1,0 +1,2 @@
+serchAPIKey=AIzaSyDnXvsRV472gAaEPgrDUrXfqMQN2DK7MW0
+cx=76c8863cab8eb4310

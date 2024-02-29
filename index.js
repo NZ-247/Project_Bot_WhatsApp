@@ -608,6 +608,41 @@ async function adicionarLegendaPosicionada(imagePath, texto, outputPath) {
     }
 };
 
+// Função para buscar uma imagem com base no termo de pesquisa
+async function buscarImagem(termoDePesquisa) {
+    try {
+        const response = await axios.get(`https://www.googleapis.com/customsearch/v1?key=AIzaSyDnXvsRV472gAaEPgrDUrXfqMQN2DK7MW0&cx=76c8863cab8eb4310&q=${encodeURIComponent(termoDePesquisa)}&searchType=image`);
+
+        if (response.data.items && response.data.items.length > 0) {
+            const primeiraImagem = response.data.items[0];
+            const urlDaImagem = primeiraImagem.link;
+            
+            return urlDaImagem; // Retorna a URL da primeira imagem encontrada
+        } else {
+            return null; // Retorna nulo se nenhuma imagem for encontrada
+        }
+    } catch (error) {
+        console.error('Erro ao buscar imagem:', error);
+        throw new Error('Ocorreu um erro ao buscar a imagem.');
+    }
+}
+
+// Função para baixar a imagem localmente
+async function baixarImagem(url) {
+    const response = await axios({
+        method: 'GET',
+        url: url,
+        responseType: 'stream'
+    });
+
+    const nomeDoArquivo = `imagem_${Date.now()}.jpg`;
+    const caminhoDoArquivo = `./tmp/${nomeDoArquivo}`;
+
+    response.data.pipe(fs.createWriteStream(caminhoDoArquivo));
+
+    return caminhoDoArquivo;
+}
+
 
 
 if (!isCmd && info.key.fromMe) return
@@ -1052,6 +1087,29 @@ await sleep(1000)
 conn.sendMessage(from, {audio: await getBuffer(tkk.resultado.link_dl), mimetype: 'audio/mpeg'}, {quoted: selo})
 break
 
+case 'image':
+    if (!q) return enviar('Por favor, forneça um termo de pesquisa.');
+
+    try {
+        enviar('Procurando por uma imagem...');
+        const urlDaImagem = await buscarImagem(q); // Busca a imagem com base no termo de pesquisa
+
+        if (urlDaImagem) {
+            const caminhoDaImagem = await baixarImagem(urlDaImagem); // Baixa a imagem localmente
+
+            // Prepara a legenda da imagem
+            const legenda = `Resultado de: ${q} | Fonte: Google`;
+
+            // Envia a imagem para o usuário com a legenda
+            conn.sendMessage(from, { file: caminhoDaImagem, caption: legenda }, { quoted: selo });
+        } else {
+            enviar('Nenhuma imagem encontrada para o termo de pesquisa fornecido.');
+        }
+    } catch (error) {
+        console.error('Erro ao executar o comando "image":', error);
+        enviar('Ocorreu um erro ao processar o comando "image".');
+    }
+break
 
  
 
