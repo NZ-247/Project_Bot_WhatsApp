@@ -849,6 +849,7 @@ enviar(tkks.trim())
 break
 
 case 'tutorial':
+if (!isOwner) return enviar(hah.dono)
 enviar(`POIS BEM! IREI FAZER UM TUTORIAL SIMPLES DE COMO FAZER COMANDO PERSONALIZADOS.
 
 <•>==============<•>
@@ -906,7 +907,7 @@ case 'jao':
         'Tu é um Jão',
         'Valorize sua vida, vote na expulsão do Jão.',
         'Não sei vocês mas o Jão é baitola',
-        'Vai tmnc @556696625255'
+        'Vai tmnc @'
     ];
     enviarMensagemAleatoria(msgjao);
 break
@@ -1633,7 +1634,7 @@ if(!txt) return enviar('Cade o número da pessoa?')
 if(!txtt) return enviar('Cade a mensagem do correio??')
 if(txt.includes("-")) return enviar('Tem que ser o número junto sem +, e não pode tá separado da /')
 if(txtt.includes("+")) return enviar('Tem que ser o número junto sem +, e não pode tá separado da /')
-if(!txtt.includes("/")) return enviar(`Exemplo: ${prefix + command} 559185470410/Oiii guxta eu te amoo🤷‍♂️🤷‍♂️❤️`)
+if(!txtt.includes("/")) return enviar(`Exemplo: ${prefix + command} 559185470410/Oiii NZ eu te amoo🤷‍♂️🤷‍♂️❤️`)
 bla = 
 `
 ╭━─━─━─≪◇≫─━─━─━
@@ -1657,7 +1658,7 @@ if(!txt) return enviar('Cade o número da pessoa?')
 if(!txtt) return enviar('Cade a mensagem do correio??')
 if(txt.includes("-")) return enviar('Tem que ser o número junto sem +, e não pode tá separado da /')
 if(txtt.includes("+")) return enviar('Tem que ser o número junto sem +, e não pode tá separado da /')
-if(!txtt.includes("/")) return enviar(`Exemplo: ${prefix + command} 559185470410/oii guxta Eu te amo❤️❤️🤷‍♂️`)
+if(!txtt.includes("/")) return enviar(`Exemplo: ${prefix + command} 559185470410/oii NZ Eu te amo❤️❤️🤷‍♂️`)
 bla = 
 `
 ╭━─━─━─≪◇≫─━─━─━
@@ -2128,7 +2129,7 @@ enviar(`Opa ${pushname}, posso ajudar?`)
 }
 
 if (isCmd){
-conn.sendMessage(from, {text: `Este comando não existe, verifique o ${prefix}menu e veja meus comandos!`}, {quoted: info})
+conn.sendMessage(from, {text: `Este comando não existe!`}, {quoted: info})
 return
 }
 
