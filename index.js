@@ -635,7 +635,7 @@ async function baixarImagem(url) {
         responseType: 'stream'
     });
 
-    const nomeDoArquivo = `imagem_${Date.now()}.png`;
+    const nomeDoArquivo = `imagem_${Date.now()}.jpg`;
     const caminhoDoArquivo = `./tmp/${nomeDoArquivo}`;
 
     response.data.pipe(fs.createWriteStream(caminhoDoArquivo));
@@ -1091,17 +1091,17 @@ case 'image':
     if (!q) return enviar('Por favor, forneça um termo de pesquisa.');
 
     try {
-        enviar('Procurando por uma imagem...');
+        enviar('Buscando imagem...');
         const urlDaImagem = await buscarImagem(q); // Busca a imagem com base no termo de pesquisa
 
         if (urlDaImagem) {
             const caminhoDaImagem = await baixarImagem(urlDaImagem); // Baixa a imagem localmente
 
             // Prepara a legenda da imagem
-            const legenda = `Resultado de: ${q} | Fonte: Google`;
+            const legenda = `Resultado de: ${q} | Fonte: Google`
 
             // Envia a imagem para o usuário com a legenda
-            conn.sendMessage(from, { file: caminhoDaImagem, caption: legenda }, { quoted: selo });
+            conn.sendMessage(from, {Image: caminhoDaImagem, caption: legenda, mimetype: 'image/jpg'}, { quoted: selo })
         } else {
             enviar('Nenhuma imagem encontrada para o termo de pesquisa fornecido.');
         }
