@@ -635,7 +635,7 @@ async function baixarImagem(url) {
         responseType: 'stream'
     });
 
-    const nomeDoArquivo = `imagem_${Date.now()}.jpg`;
+    const nomeDoArquivo = `imagem_${Date.now()}.png`;
     const caminhoDoArquivo = `./tmp/${nomeDoArquivo}`;
 
     response.data.pipe(fs.createWriteStream(caminhoDoArquivo));
