@@ -687,19 +687,20 @@ break
 
 case 'envf':
     const mensagemParaMarcar = info.quoted || info; // Verifica se há uma mensagem citada
+    const mensagemOriginal = quotedMsgObj && quotedMsgObj.contextInfo ? quotedMsgObj.contextInfo.stanzaId : quotedMsgObj;
+    
     if (!q) return await conn.sendMessage(from, 'Por favor, adicione o nome da figurinha após o comando.', {quoted: mensagemParaMarcar});
 
     const caminho = `./datab/figurinhas/${q}.webp`; // Substitua pelo caminho do diretório onde estão suas figurinhas
 
     try {
         const figurinha = fs.readFileSync(caminho); // Lê o arquivo da figurinha
-        await conn.sendMessage(from, {sticker: figurinha}, {quoted: mensagemParaMarcar});
+        await conn.sendMessage(from, {sticker: figurinha}, {quoted: mensagemOriginal});
     } catch (error) {
         console.error(error);
-        await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', {quoted: mensagemParaMarcar});
+        await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', {quoted: mensagemOriginal});
     }
 break
-
 
 
 case 'documentozip':
@@ -711,7 +712,6 @@ if (!isOwner) return enviar(resposta.dono)
 enviar('Reiniciando...')
 await delay(2000)
 process.exit();
-break
 
 case 'login':
 if(time2 > "00:00:00"){
@@ -980,34 +980,28 @@ case 'alan':
 break
 
 case 'toimg':
-    if (!isQuotedSticker) {
-        enviar('Por favor, responda a uma figurinha com este comando para convertê-la de volta para uma imagem.');
-        return;
-    }
-
     try {
-        // Nome do arquivo de saída para a imagem convertida
-        const outputImagePath = './converted_image.png';
+        const message = info.quoted; // Verifica se há uma mensagem citada
 
-        // Baixa a figurinha para um arquivo temporário
-        const stickerData = await conn.downloadMediaMessage(info.message.extendedTextMessage.contextInfo);
-        const stickerPath = './temp_sticker.webp';
-        fs.writeFileSync(stickerPath, stickerData, 'base64');
+        if (!message || !message.message) {
+            return enviar('Marque uma mensagem de mídia para converter em imagem.');
+        }
 
-        // Converte a figurinha para uma imagem usando ffmpeg
-        await stickerToImageWithFFmpeg(stickerPath, outputImagePath);
+        const media = await conn.downloadAndSaveMediaMessage(message); // Baixa e salva a mídia localmente
+        const imagem = `./${Date.now()}.png`;
 
-        // Envia a imagem convertida de volta
-        conn.sendMessage(from, { image: fs.readFileSync(outputImagePath) }, MessageType.image);
+        await sharp(media)
+            .toFormat('png') // Converta para PNG
+            .toFile(imagem); // Salva como imagem
 
-        // Exclui os arquivos temporários
-        fs.unlinkSync(stickerPath);
-        fs.unlinkSync(outputImagePath);
+        await conn.sendMessage(from, { file: imagem }, { quoted: info });
+        fs.unlinkSync(imagem); // Exclui o arquivo da imagem depois de enviado
     } catch (error) {
-        console.error('Erro ao lidar com o comando toimg:', error);
-        enviar('Ocorreu um erro ao converter a figurinha para imagem.');
+        console.error('Erro ao executar o comando "toimg":', error);
+        enviar('Ocorreu um erro ao processar o comando "toimg".');
     }
 break
+
 
 case 'gerargp':
 if(!q) return enviar(`Use o comando da seguinte forma. Exemplo: ${prefix + command} anime`)
@@ -1238,10 +1232,6 @@ case 'fmeme':
     if (!isRegistro) return enviar(hah.login);
     {
         (async function () {
-            // Extrair o texto e a legenda separados pelo caractere '|'
-            const partes = q.split('|');
-            const textoSuperior = partes[0].trim();
-            const legendaInferior = partes[1]?.trim() || '';
 
             if (isMedia && !info.message.videoMessage || isQuotedImage) {
                 var encmedia = isQuotedImage ? info.message.extendedTextMessage.contextInfo.quotedMessage.imageMessage : info.message.imageMessage;
@@ -1250,13 +1240,10 @@ case 'fmeme':
                 fs.writeFileSync(rane, buffimg);
                 rano = getRandom('.webp');
 
-                // Adiciona texto superior centralizado
-                await adicionarLegendaPosicionada(rane, textoSuperior, textoSuperior);
+                // Adiciona texto centralizado
+                const stkt = await adicionarLegendaPosicionada(rane, q, rano);
 
-                // Adiciona legenda inferior centralizada
-                await adicionarLegendaPosicionada(rane, legendaInferior, legendaInferior);
-
-                conn.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: info});
+                conn.sendMessage(from, {sticker: fs.readFileSync(stkt)}, {quoted: info});
                 fs.unlinkSync(rane);
                 fs.unlinkSync(rano);
             } else {
