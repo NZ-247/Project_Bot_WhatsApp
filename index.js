@@ -694,7 +694,7 @@ case 'envf':
 
     try {
         const figurinha = fs.readFileSync(caminho); // Lê o arquivo da figurinha
-        await conn.sendMessage(from, { sticker: figurinha }, { quoted: mensagemParaMarcar });
+        await conn.sendMessage(from, { sticker: figurinha }, { quoted: message.sender });
     } catch (error) {
         console.error(error);
         await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', { quoted: mensagemParaMarcar });
@@ -984,9 +984,7 @@ case 'toimg':
         const message = info.quoted; // Verifica se há uma mensagem citada
 
         if (!message || !isQuotedSticker) {
-            return enviar('Marque uma figurinha para converter em imagem.');
-        }
-
+ 
         const media = await conn.downloadAndSaveMediaMessage(message); // Baixa e salva a mídia localmente
         const imagem = `./${Date.now()}.png`;
 
@@ -996,6 +994,9 @@ case 'toimg':
 
         await conn.sendMessage(from, { file: imagem }, { quoted: info });
         fs.unlinkSync(imagem); // Exclui o arquivo da imagem após o envio
+        } else {
+            enviar('Marque uma figurinha para converter em imagem')
+        }
     } catch (error) {
         console.error('Erro ao executar o comando "toimg":', error);
         enviar('Ocorreu um erro ao processar o comando "toimg".');
