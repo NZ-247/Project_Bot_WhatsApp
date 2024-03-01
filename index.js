@@ -687,20 +687,20 @@ break
 
 case 'envf':
     const mensagemParaMarcar = info.quoted || info; // Verifica se há uma mensagem citada
-    const mensagemOriginal = quotedMsgObj && quotedMsgObj.contextInfo ? quotedMsgObj.contextInfo.stanzaId : quotedMsgObj;
-    
-    if (!q) return await conn.sendMessage(from, 'Por favor, adicione o nome da figurinha após o comando.', {quoted: mensagemParaMarcar});
+
+    if (!q) return await conn.sendMessage(from, 'Por favor, adicione o nome da figurinha após o comando.', { quoted: mensagemParaMarcar });
 
     const caminho = `./datab/figurinhas/${q}.webp`; // Substitua pelo caminho do diretório onde estão suas figurinhas
 
     try {
         const figurinha = fs.readFileSync(caminho); // Lê o arquivo da figurinha
-        await conn.sendMessage(from, {sticker: figurinha}, {quoted: mensagemOriginal});
+        await conn.sendMessage(from, { sticker: figurinha }, { quoted: mensagemParaMarcar });
     } catch (error) {
         console.error(error);
-        await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', {quoted: mensagemOriginal});
+        await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', { quoted: mensagemParaMarcar });
     }
 break
+
 
 
 case 'documentozip':
@@ -983,24 +983,25 @@ case 'toimg':
     try {
         const message = info.quoted; // Verifica se há uma mensagem citada
 
-        if (!message || !message.message) {
-            return enviar('Marque uma mensagem de mídia para converter em imagem.');
+        if (!message || !isQuotedSticker) {
+            return enviar('Marque uma figurinha para converter em imagem.');
         }
 
         const media = await conn.downloadAndSaveMediaMessage(message); // Baixa e salva a mídia localmente
         const imagem = `./${Date.now()}.png`;
 
         await sharp(media)
-            .toFormat('png') // Converta para PNG
+            .toFormat('png') // Converte para PNG
             .toFile(imagem); // Salva como imagem
 
         await conn.sendMessage(from, { file: imagem }, { quoted: info });
-        fs.unlinkSync(imagem); // Exclui o arquivo da imagem depois de enviado
+        fs.unlinkSync(imagem); // Exclui o arquivo da imagem após o envio
     } catch (error) {
         console.error('Erro ao executar o comando "toimg":', error);
         enviar('Ocorreu um erro ao processar o comando "toimg".');
     }
 break
+
 
 
 case 'gerargp':
