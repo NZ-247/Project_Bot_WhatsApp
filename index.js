@@ -686,16 +686,21 @@ await conn.sendMessage(from, {sticker: fs.readFileSync('./Example/exemplo.webp')
 break
 
 case 'envf':
-    if (!q) return await conn.sendMessage(from, 'Por favor, adicione o nome da figurinha após o comando.', {quoted: info});
+    const mensagemParaMarcar = info.quoted || info; // Verifica se há uma mensagem citada
+    if (!q) return await conn.sendMessage(from, 'Por favor, adicione o nome da figurinha após o comando.', {quoted: mensagemParaMarcar});
+
     const caminho = `./datab/figurinhas/${q}.webp`; // Substitua pelo caminho do diretório onde estão suas figurinhas
+
     try {
         const figurinha = fs.readFileSync(caminho); // Lê o arquivo da figurinha
-        await conn.sendMessage(from, {sticker: figurinha}, {quoted: info });
+        await conn.sendMessage(from, {sticker: figurinha}, {quoted: mensagemParaMarcar});
     } catch (error) {
         console.error(error);
-        await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', {quoted: info});
+        await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', {quoted: mensagemParaMarcar});
     }
 break
+
+
 
 case 'documentozip':
 await conn.sendMessage(from, {document: fs.readFileSync('./Example/exemplo.zip'), fileName: 'Guxta-Base.zip', mimetype: 'application/zip'}, {quoted: info });
@@ -935,14 +940,15 @@ break
 
 case 'jao':
     const msgjao = [
+        'É meio gay mas é amigo.',
         'O jão comedor de idosas.',
         'O jão é gay.',
         'O jão é conhecido por suas incríveis habilidades em chupar pikas.',
-        'Jão, cala a boca nmrl.',
-        'Tu é um Jão',
+        'Jão, o famoso ben 10.',
+        'O jão é um bahiano',
         'Valorize sua vida, vote na expulsão do Jão.',
         'Não sei vocês mas o Jão é baitola',
-        'Vai tmnc @'
+        'jão, me diz uma coisa, tua mãe sabe que você é gay ?'
     ];
     enviarMensagemAleatoria(msgjao);
 break
@@ -1245,7 +1251,7 @@ case 'fmeme':
                 rano = getRandom('.webp');
 
                 // Adiciona texto superior centralizado
-                await adicionarLegendaPosicionada(rane, textoSuperior, textosuperior);
+                await adicionarLegendaPosicionada(rane, textoSuperior, textoSuperior);
 
                 // Adiciona legenda inferior centralizada
                 await adicionarLegendaPosicionada(rane, legendaInferior, legendaInferior);
@@ -1271,22 +1277,27 @@ break
 
 case 'rename':
 case 'roubar':  
-if (!isQuotedSticker) return reply('Marque uma figurinha tonto...')
-encmediats = await getFileBuffer(info.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage, 'sticker')
-var kls = q
-var pack = kls.split("/")[0];
-var author2 = kls.split("/")[1];
-if (!q) return reply('*E o autor e o nome do pacote?*')
-if (!pack) return reply(`*por favor escreve o formato certo: ${prefix + command} sad/bla*`)
-if (!author2) return reply(`*por favor escreve o formato certo: ${prefix + command} sad/dms*`)
-enviar(hah.espere)
-bas64 = `data:image/png;base64,${encmediats.toString('base64')}`
-var mantap = await convertSticker(bas64, `${author2}`, `${pack}`)
-var sti = new Buffer.from(mantap, 'base64');
-conn.sendMessage(from, {sticker: sti, contextInfo: { externalAdReply:{title: `${pack}|${author2}`,body:"", previewType:"PHOTO",thumbnail: sti}}}, {quoted: info})
-.catch((err) => {
-enviar(`❎ Error, tenta mais tarde`); 
-})
+if (!isQuotedSticker) return reply('Marque uma figurinha, tonto...');
+
+try {
+    const encmediats = await getFileBuffer(info.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage, 'sticker');
+    const kls = q;
+    const pack = kls.split("/")[0].trim();
+    const author2 = kls.split("/")[1].trim();
+    
+    if (!q || !pack || !author2) return reply('*E o autor e o nome do pacote?*\nPor favor, use o formato certo: /roubar sad/bla');
+
+    enviar(hah.espere);
+
+    const bas64 = `data:image/png;base64,${encmediats.toString('base64')}`;
+    const mantap = await convertSticker(bas64, author2, pack);
+    const sti = Buffer.from(mantap, 'base64');
+
+    conn.sendMessage(from, { sticker: sti, contextInfo: { externalAdReply: { title: `${pack}|${author2}`, body: "", previewType: "PHOTO", thumbnail: sti } } }, { quoted: info });
+} catch (error) {
+    console.error(error);
+    enviar(`❎ Error, tente novamente mais tarde`);
+}
 break
 
 //GRUPOS
