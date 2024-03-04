@@ -694,7 +694,7 @@ case 'envf':
 
     try {
         const figurinha = fs.readFileSync(caminho); // Lê o arquivo da figurinha
-        await conn.sendMessage(from, { sticker: figurinha }, { quoted: mensage.sender });
+        await conn.sendMessage(from, { sticker: figurinha }, { quoted:  mensagemParaMarcar});
     } catch (error) {
         console.error(error);
         await conn.sendMessage(from, 'Figurinha não encontrada. Por favor, verifique o nome e tente novamente.', { quoted: mensagemParaMarcar });
