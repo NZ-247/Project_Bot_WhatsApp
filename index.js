@@ -705,7 +705,7 @@ break
 
 
 case 'envfig':
-    const mensagemParaMarcar = info.quoted || info; // Verifica se há uma mensagem citada
+    //const mensagemParaMarcar = info.quoted || info; // Verifica se há uma mensagem citada
 
     const diretorioFigurinhas = './datab/figurinhas'; // Substitua pelo caminho do diretório onde estão suas figurinhas
     try {
@@ -720,11 +720,11 @@ case 'envfig':
         for (const figurinha of figurinhas) {
             const caminho = path.join(diretorioFigurinhas, figurinha);
             const imagem = fs.readFileSync(caminho);
-            await conn.sendMessage(from, { sticker: imagem }, { quoted: mensagemParaMarcar });
+            await conn.sendMessage(from, { sticker: imagem }, { quoted: info });
         }
     } catch (error) {
         console.error(error);
-        await conn.sendMessage(from, 'Ocorreu um erro ao enviar as figurinhas.', { quoted: mensagemParaMarcar });
+        await conn.sendMessage(from, 'Ocorreu um erro ao enviar as figurinhas.', { quoted: info });
     }
 break
 
