@@ -538,6 +538,8 @@ bla = fs.readFileSync(figu)
 conn.sendMessage(from, {sticker: bla}, {quoted: info})
 }
 
+const path = require('path');
+
 //Funções de commandos.
 
 function enviarMensagemAleatoria(mensagens) {
@@ -688,7 +690,7 @@ break
 case 'envf':
     const mensagemParaMarcar = info.quoted || info; // Verifica se há uma mensagem citada
 
-    if (!q) return await conn.sendMessage(from, 'Por favor, adicione o nome da figurinha após o comando.', { quoted: mensagemParaMarcar });
+    if (!q) return await enviar('Por favor, adicione o nome da figurinha após o comando.');
 
     const caminho = `./datab/figurinhas/${q}.webp`; // Substitua pelo caminho do diretório onde estão suas figurinhas
 
@@ -701,6 +703,30 @@ case 'envf':
     }
 break
 
+
+case 'envfig':
+    const mensagemParaMarcar = info.quoted || info; // Verifica se há uma mensagem citada
+
+    const diretorioFigurinhas = './datab/figurinhas'; // Substitua pelo caminho do diretório onde estão suas figurinhas
+    try {
+        // Lê todos os arquivos do diretório de figurinhas
+        const figurinhas = fs.readdirSync(diretorioFigurinhas);
+
+        if (figurinhas.length === 0) {
+            return await enviar('Não há figurinhas no diretório.');
+        }
+
+        // Envia todas as figurinhas uma por uma
+        for (const figurinha of figurinhas) {
+            const caminho = path.join(diretorioFigurinhas, figurinha);
+            const imagem = fs.readFileSync(caminho);
+            await conn.sendMessage(from, { sticker: imagem }, { quoted: mensagemParaMarcar });
+        }
+    } catch (error) {
+        console.error(error);
+        await conn.sendMessage(from, 'Ocorreu um erro ao enviar as figurinhas.', { quoted: mensagemParaMarcar });
+    }
+break
 
 
 case 'documentozip':
