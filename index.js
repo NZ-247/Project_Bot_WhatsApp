@@ -705,20 +705,34 @@ break
 
 
 case 'envfig':
-    //const mensagemParaMarcar = info.quoted || info; // Verifica se há uma mensagem citada
-
     const diretorioFigurinhas = './datab/figurinhas'; // Substitua pelo caminho do diretório onde estão suas figurinhas
+
     try {
-        // Lê todos os arquivos do diretório de figurinhas
+        const parametros = q.split('|').map(param => parseInt(param.trim())); // Divide os parâmetros por "|"
+        let inicio, fim;
+
+        if (parametros.length === 1) {
+            inicio = parametros[0]; // Define apenas a posição inicial
+            fim = inicio;
+        } else if (parametros.length === 2) {
+            inicio = Math.min(parametros[0], parametros[1]); // Define o menor número como início
+            fim = Math.max(parametros[0], parametros[1]); // Define o maior número como fim
+        } else {
+            return await enviar('Formato inválido. Use ".envfig <número>" ou ".envfig <número1> | <número2>".');
+        }
+
         const figurinhas = fs.readdirSync(diretorioFigurinhas);
 
         if (figurinhas.length === 0) {
             return await enviar('Não há figurinhas no diretório.');
         }
 
-        // Envia todas as figurinhas uma por uma
-        for (const figurinha of figurinhas) {
-            const caminho = path.join(diretorioFigurinhas, figurinha);
+        if (inicio < 0 || fim >= figurinhas.length) {
+            return await enviar('Posições de figurinhas fora do intervalo.');
+        }
+
+        for (let i = inicio; i <= fim; i++) {
+            const caminho = path.join(diretorioFigurinhas, figurinhas[i]);
             const imagem = fs.readFileSync(caminho);
             await conn.sendMessage(from, { sticker: imagem }, { quoted: info });
         }
