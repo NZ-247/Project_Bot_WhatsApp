@@ -708,17 +708,10 @@ case 'envfig':
     const diretorioFigurinhas = './datab/figurinhas'; // Substitua pelo caminho do diretório onde estão suas figurinhas
 
     try {
-        const parametros = q.split('|').map(param => parseInt(param.trim())); // Divide os parâmetros por "|"
-        let inicio, fim;
+        let quantidade = parseInt(q); // Obter a quantidade de figurinhas a serem enviadas
 
-        if (parametros.length === 1) {
-            inicio = parametros[0]; // Define apenas a posição inicial
-            fim = inicio;
-        } else if (parametros.length === 2) {
-            inicio = Math.min(parametros[0], parametros[1]); // Define o menor número como início
-            fim = Math.max(parametros[0], parametros[1]); // Define o maior número como fim
-        } else {
-            return await enviar('Formato inválido. Use ".envfig <número>" ou ".envfig <número1> | <número2>".');
+        if (isNaN(quantidade) || quantidade <= 0) {
+            return await enviar('Por favor, forneça um número válido maior que zero.');
         }
 
         const figurinhas = fs.readdirSync(diretorioFigurinhas);
@@ -727,12 +720,23 @@ case 'envfig':
             return await enviar('Não há figurinhas no diretório.');
         }
 
-        if (inicio < 0 || fim >= figurinhas.length) {
-            return await enviar('Posições de figurinhas fora do intervalo.');
+        if (quantidade > figurinhas.length) {
+            return await enviar('Não há figurinhas suficientes no diretório.');
         }
 
-        for (let i = inicio; i <= fim; i++) {
-            const caminho = path.join(diretorioFigurinhas, figurinhas[i]);
+        const figurinhasSelecionadas = []; // Array para armazenar as figurinhas selecionadas
+
+        while (figurinhasSelecionadas.length < quantidade) {
+            const indiceAleatorio = Math.floor(Math.random() * figurinhas.length);
+            const figurinha = figurinhas[indiceAleatorio];
+            
+            if (!figurinhasSelecionadas.includes(figurinha)) {
+                figurinhasSelecionadas.push(figurinha);
+            }
+        }
+
+        for (const figurinha of figurinhasSelecionadas) {
+            const caminho = path.join(diretorioFigurinhas, figurinha);
             const imagem = fs.readFileSync(caminho);
             await conn.sendMessage(from, { sticker: imagem }, { quoted: info });
         }
