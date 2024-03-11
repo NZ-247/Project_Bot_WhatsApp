@@ -704,38 +704,40 @@ case 'envf':
 break
 
 
+
 case 'envfig':
     const diretorioFigurinhas = './datab/figurinhas'; // Substitua pelo caminho do diretório onde estão suas figurinhas
 
     try {
-        let quantidade = parseInt(q); // Obter a quantidade de figurinhas a serem enviadas
+        const parametros = q.split('|').map(param => parseInt(param.trim())); // Divide os parâmetros por "|"
+        let inicio, fim;
 
-        if (isNaN(quantidade) || quantidade <= 0) {
-            return await enviar('Por favor, forneça um número válido maior que zero.');
+        if (parametros.length === 1) {
+            inicio = parametros[0]; // Define apenas a posição inicial
+            fim = inicio;
+        } else if (parametros.length === 2) {
+            inicio = Math.min(parametros[0], parametros[1]); // Define o menor número como início
+            fim = Math.max(parametros[0], parametros[1]); // Define o maior número como fim
+        } else {
+            return await enviar('Formato inválido. Use ".envfig <número>" ou ".envfig <número1> | <número2>".');
         }
 
-        const figurinhas = fs.readdirSync(diretorioFigurinhas);
+        let figurinhas;
+        
+        if (isNaN(inicio) && isNaN(fim)) {
+            // Se os parâmetros não são números, busca todas as figurinhas
+            figurinhas = fs.readdirSync(diretorioFigurinhas);
+        } else {
+            // Caso contrário, busca as figurinhas dentro do intervalo especificado
+            figurinhas = fs.readdirSync(diretorioFigurinhas).slice(inicio, fim + 1);
+        }
 
         if (figurinhas.length === 0) {
-            return await enviar('Não há figurinhas no diretório.');
+            return await enviar('Nenhuma figurinha encontrada.');
         }
 
-        if (quantidade > figurinhas.length) {
-            return await enviar('Não há figurinhas suficientes no diretório.');
-        }
-
-        const figurinhasSelecionadas = []; // Array para armazenar as figurinhas selecionadas
-
-        while (figurinhasSelecionadas.length < quantidade) {
-            const indiceAleatorio = Math.floor(Math.random() * figurinhas.length);
-            const figurinha = figurinhas[indiceAleatorio];
-            
-            if (!figurinhasSelecionadas.includes(figurinha)) {
-                figurinhasSelecionadas.push(figurinha);
-            }
-        }
-
-        for (const figurinha of figurinhasSelecionadas) {
+        // Enviar as figurinhas encontradas
+        for (const figurinha of figurinhas) {
             const caminho = path.join(diretorioFigurinhas, figurinha);
             const imagem = fs.readFileSync(caminho);
             await conn.sendMessage(from, { sticker: imagem }, { quoted: info });
@@ -745,7 +747,6 @@ case 'envfig':
         await conn.sendMessage(from, 'Ocorreu um erro ao enviar as figurinhas.', { quoted: info });
     }
 break
-
 
 case 'documentozip':
 await conn.sendMessage(from, {document: fs.readFileSync('./Example/exemplo.zip'), fileName: 'Guxta-Base.zip', mimetype: 'application/zip'}, {quoted: info });
