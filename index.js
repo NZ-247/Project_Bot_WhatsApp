@@ -563,6 +563,14 @@ async function stickerToImageWithFFmpeg(stickerPath, outputPath) {
 
 const Jimp = require('jimp');
 
+// Função para embaralhar um array
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 
 async function adicionarLegendaPosicionada(imagePath, texto, outputPath) {
     try {
@@ -713,34 +721,45 @@ case 'envfig':
         let inicio, fim;
 
         if (parametros.length === 1) {
-            inicio = parametros[0]; // Define apenas a posição inicial
-            fim = inicio;
+            const quantidade = parametros[0]; // Define a quantidade de figurinhas a serem enviadas
+
+            if (isNaN(quantidade) || quantidade <= 0) {
+                return await enviar('Por favor, forneça um número válido maior que zero.');
+            }
+
+            // Obtem todas as figurinhas disponíveis
+            const figurinhasDisponiveis = fs.readdirSync(diretorioFigurinhas);
+            
+            // Embaralha as figurinhas para selecionar aleatoriamente
+            shuffle(figurinhasDisponiveis);
+
+            // Seleciona as primeiras "quantidade" figurinhas para enviar
+            const figurinhasSelecionadas = figurinhasDisponiveis.slice(0, quantidade);
+
+            // Enviar as figurinhas selecionadas
+            for (const figurinha of figurinhasSelecionadas) {
+                const caminho = path.join(diretorioFigurinhas, figurinha);
+                const imagem = fs.readFileSync(caminho);
+                await conn.sendMessage(from, { sticker: imagem }, { quoted: info });
+            }
         } else if (parametros.length === 2) {
             inicio = Math.min(parametros[0], parametros[1]); // Define o menor número como início
             fim = Math.max(parametros[0], parametros[1]); // Define o maior número como fim
+
+            const figurinhas = fs.readdirSync(diretorioFigurinhas).slice(inicio, fim + 1);
+
+            if (figurinhas.length === 0) {
+                return await enviar('Nenhuma figurinha encontrada no intervalo especificado.');
+            }
+
+            // Enviar as figurinhas encontradas
+            for (const figurinha of figurinhas) {
+                const caminho = path.join(diretorioFigurinhas, figurinha);
+                const imagem = fs.readFileSync(caminho);
+                await conn.sendMessage(from, { sticker: imagem }, { quoted: info });
+            }
         } else {
             return await enviar('Formato inválido. Use ".envfig <número>" ou ".envfig <número1> | <número2>".');
-        }
-
-        let figurinhas;
-        
-        if (isNaN(inicio) && isNaN(fim)) {
-            // Se os parâmetros não são números, busca todas as figurinhas
-            figurinhas = fs.readdirSync(diretorioFigurinhas);
-        } else {
-            // Caso contrário, busca as figurinhas dentro do intervalo especificado
-            figurinhas = fs.readdirSync(diretorioFigurinhas).slice(inicio, fim + 1);
-        }
-
-        if (figurinhas.length === 0) {
-            return await enviar('Nenhuma figurinha encontrada.');
-        }
-
-        // Enviar as figurinhas encontradas
-        for (const figurinha of figurinhas) {
-            const caminho = path.join(diretorioFigurinhas, figurinha);
-            const imagem = fs.readFileSync(caminho);
-            await conn.sendMessage(from, { sticker: imagem }, { quoted: info });
         }
     } catch (error) {
         console.error(error);
