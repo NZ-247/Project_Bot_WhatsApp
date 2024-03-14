@@ -539,6 +539,8 @@ conn.sendMessage(from, {sticker: bla}, {quoted: info})
 }
 
 const path = require('path');
+const googleHandler = require('./google.js');
+
 
 //Funções de commandos.
 
@@ -1177,7 +1179,9 @@ case 'image':
     }
 break
 
- 
+ case 'google':
+    googleHandler(m, { conn, command, args });
+break
 
 //FIGURINHAS 
 
@@ -1327,6 +1331,9 @@ case 'fmeme':
     }
 break
 
+case 'comandos':
+    enviar('Comando é meus zovo seu arrombado, vtmnc só acompanhar o grupo aí, 😹🤖')
+break
 
 case 'rename':
 case 'roubar':  
@@ -1416,22 +1423,62 @@ txt += `${emoji} ${a.nome}`
 enviar(txt)
 break
 
-case 'ahegao':
-case 'ass':
-case 'bdsm':
-case 'blowjob':
-case 'cuckoId':
-case 'cum':
-case 'ero':
-case 'femdom':
-case 'foot':
+
 case 'hentai':
-case 'orgy':
-case 'jahy':
-enviar(hah.espere)
-await sleep(100)
-yume_api = await getBuffer(`https://yumeko-api.onrender.com/api/hentai/${command}?apikey=PWmRfQJZZX`)
-conn.sendMessage(from, {image: yume_api, caption: `Veja mais em: https://yumeko-api.onrender.com ! `}, {quoted: selo})
+    const h_nomes = [
+        "Kutsujoku",
+        "konoichi ryoujokud",
+        "Harem Time",
+        "A Midsummer Night's Dream The Animation",
+        "hatsukoi Jikan",
+        "Dorei Usagi to Anthony",
+        "Fushigi no Kuni no Succubus",
+        "Hitozuma, Mitsu to Niku",
+        "Harem Camp!",
+        "Saimin Seishidou e Ijirare Fukushuu Sai",
+        "Yumemiru Otome",
+        "kirsch birch demo",
+        "Gakuen de Jikan",
+        "Haha musume donburi",
+        "[Agata] Boku no Otona Shokugyou Taiken",
+        "Gaki Ni Modotte Yarinaoshi!!!",
+        "Necro Fantasia [Jyura]",
+        "lucky yui",
+        "Hatsukoi Jikan.",
+        "Mama Tsuki in the Virgin Destroyer.",
+        "Modaete yo Adam-kun",
+        "Tonari no Ie no Anette-san The Animation",
+        "kateikyoushi no one-san",
+        "Adam's Sweet Agony",
+        "Rei Kazuma Sato Zettai Junshu Kyousei Kozukuri Kyokashou",
+        "Oyomesama Honey Days",
+        "Imouto wa Gal Kawaii",
+        "My Mother",
+        "Maid Kyouiku: Botsuraku Kizoku Rurikawa Tsubaki The Animation",
+        "Saimin Seishidou",
+        "juvenile pornography the animation",
+        "Muttsuri Do Sukebe",
+        "[Nanbou Hitogakushiki (Nakamura Regura)] Ankai no Umi",
+        "Kyoukai Senjou no Horizon (a.k.a. Horizon in the Middle of Nowhere)",
+        "Energy Kyouka",
+        "Shidoukan Day After The Animation",
+        "Soushisouai Note",
+        "Oide Yo mizuryuu kei land",
+        "Hajimete no Hitozuma",
+        "[Nanbou Hitogakushiki (Nakamura Regura)] Kakkou no Su",
+        "triplle Echi",
+        "[Sakurayu Hal] Musume Nochi Haha, Tokoroniyori Shunrai",
+        "Junjou Decamelon",
+        "Saimin Seishidou",
+        "Sweet And Hot",
+        "Hagure Yuusha no Estetica",
+        "[Shinozuka Yuuji] Hajimete no Hitozuma",
+        "Masou Gakuen",
+        "I am the fated villian"
+    ];
+
+    enviarMensagemAleatoria(h_nomes)
+    
 break
 
 case 'linkgp': case 'linkgroup':
