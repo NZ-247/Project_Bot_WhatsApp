@@ -539,6 +539,7 @@ conn.sendMessage(from, {sticker: bla}, {quoted: info})
 }
 
 const path = require('path');
+
 const googleHandler = require('./google.js');
 
 
@@ -1179,7 +1180,7 @@ case 'image':
     }
 break
 
- case 'google':
+case 'google':
     googleHandler(m, { conn, command, args });
 break
 
