@@ -540,7 +540,7 @@ conn.sendMessage(from, {sticker: bla}, {quoted: info})
 
 const path = require('path');
 
-const googleHandler = require('./google.js');
+//const googleHandler = require('./google.js');
 
 
 //Funções de commandos.
@@ -1180,9 +1180,9 @@ case 'image':
     }
 break
 
-case 'google':
-    googleHandler(m, { conn, command, args });
-break
+// case 'google':
+//     googleHandler(m, { conn, command, args });
+// break
 
 //FIGURINHAS 
 
