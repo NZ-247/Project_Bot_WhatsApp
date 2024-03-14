@@ -27,4 +27,4 @@ if [ "$inp" = "n" ]; then
 fi
 
 
-# © Rooh Mods #
+# © NZDev Mods #

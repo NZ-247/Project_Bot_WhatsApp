@@ -1,5 +1,5 @@
 
-import { googleIt } from '@bochilteam/scraper';
+const { googleIt } = require('@bochilteam/scraper');
 
 const googleHandler = async (m, { conn, command, args }) => {
     const fetch = (await import('node-fetch')).default;
@@ -28,4 +28,4 @@ googleHandler.help = ['google'];
 googleHandler.tags = ['internet'];
 googleHandler.command = /^googlef?$/i;
 
-export default googleHandler;
+module.exports = googleHandler;
