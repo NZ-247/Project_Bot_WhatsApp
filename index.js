@@ -1804,7 +1804,7 @@ if(!txt) return enviar('Cade o número da pessoa?')
 if(!txtt) return enviar('Cade a mensagem do correio??')
 if(txt.includes("-")) return enviar('Tem que ser o número junto sem +, e não pode tá separado da /')
 if(txtt.includes("+")) return enviar('Tem que ser o número junto sem +, e não pode tá separado da /')
-if(!txtt.includes("/")) return enviar(`Exemplo: ${prefix + command} 559185470410/Oiii NZ eu te amoo🤷‍♂️🤷‍♂️❤️`)
+if(!txtt.includes("/")) return enviar(`Exemplo: ${prefix + command} 556699064658/Oiii NZ eu te amoo🤷‍♂️🤷‍♂️❤️`)
 bla = 
 `
 ╭━─━─━─≪◇≫─━─━─━
@@ -1828,7 +1828,7 @@ if(!txt) return enviar('Cade o número da pessoa?')
 if(!txtt) return enviar('Cade a mensagem do correio??')
 if(txt.includes("-")) return enviar('Tem que ser o número junto sem +, e não pode tá separado da /')
 if(txtt.includes("+")) return enviar('Tem que ser o número junto sem +, e não pode tá separado da /')
-if(!txtt.includes("/")) return enviar(`Exemplo: ${prefix + command} 559185470410/oii NZ Eu te amo❤️❤️🤷‍♂️`)
+if(!txtt.includes("/")) return enviar(`Exemplo: ${prefix + command} 556699064658/oii NZ Eu te amo❤️❤️🤷‍♂️`)
 bla = 
 `
 ╭━─━─━─≪◇≫─━─━─━
