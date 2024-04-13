@@ -1831,7 +1831,7 @@ if (args[0].trim().length < 2) {
         if (forca[p_pos].attempts<= 0) {
             forca.splice(p_pos, 1);
             fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
-            enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram*\n\n*A palavra era: ${forca[p_pos].word_original}*`);
+            enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram*\n\n*A palavra era: ${forca[p_pos].word_correct}*`);
         } else {
             enviar(`*Você errou!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Você tem ${attempts} chances*`);
             fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
