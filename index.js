@@ -1229,7 +1229,6 @@ case 'figura':
 case 'f': 
 case 'figu':
 case 'st': 
-case 'stk':
 case 'fgif':
 if (!isRegistro) return enviar(hah.login)
 {
@@ -1708,70 +1707,140 @@ forca.splice(pla_pos, 1)
 fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
 enviar(`*Jogo da forca reiniciado com sucesso. Para iniciar outra partida dê o comando ${prefix}jogodaforca*`)
 break
+
+
+// case 'forca':
+// if(!isPlayForca) return enviar(`*Você não iniciou uma partida, para iniciar dê o comando ${prefix}jogodaforca*`)
+// if(args.length < 1) return enviar(`*Dê o comando mais a letra para advinhar*`)
+// if(args[0].trim().length < 2) {
+//     p_pos = allForcaId.indexOf(sender)
+//     find = forca[p_pos].word.match(args[0].toLowerCase())
+//     is_correct = false 
+//     while(find != null) {
+// res_tmp = forca[p_pos].word.indexOf(args[0].toLowerCase())
+// forca[p_pos].array_under_word[res_tmp] = args[0].toLowerCase()
+// forca[p_pos].array_word[res_tmp] = 0
+// forca[p_pos].word = forca[p_pos].word.replace(args[0].toLowerCase(), 0)
+// find = forca[p_pos].word.match(args[0].toLowerCase())
+// is_correct = true
+//     }
+//     if(is_correct) {
+// str_under = ''
+// for(i=0;i<forca[p_pos].array_under_word.length;++i) str_under += forca[p_pos].array_under_word[i]
+// attempts = forca[p_pos].attempts
+// if(str_under == forca[p_pos].word_original) {
+// enviar(`*Parabéns, Você venceu o jogo!✅🥳*\n\n${puppet[attempts]}\n\n_*Palavra: ${str_under.split('').join(' ')}*_`)
+// forca.splice(p_pos, 1)
+// fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
+// } else {
+// enviar(`*Você acertou!✅*\n\n${puppet[attempts]}\n\n_*Palavra: ${str_under.split('').join(' ')}*_\n*Você tem ${attempts} chances*`)
+// fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
+// }
+//     } else  {
+// str_under = ''
+// for(i=0;i<forca[p_pos].array_under_word.length;++i) str_under += forca[p_pos].array_under_word[i]
+// forca[p_pos].attempts -= 1
+// attempts = forca[p_pos].attempts
+// if(forca[p_pos].attempts <= 0) {
+// forca.splice(p_pos, 1)
+// fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
+// enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram*`)
+// } else {
+// enviar(`*Você errou!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Você tem ${attempts} chances*`)
+// fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
+// }
+//     }
+// } else {
+//     p_pos = allForcaId.indexOf(sender)
+//     if(forca[p_pos].word_original == args[0].toLowerCase()) {
+// attempts = forca[p_pos].attempts
+// enviar(`*Parabéns, Você venceu o jogo!✅🥳*\n\n${puppet[attempts]}\n\n_*Palavra: ${forca[p_pos].word_original.split('').join(' ')}*_`)
+// forca.splice(p_pos, 1)
+// fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
+//     } else {
+// str_under = ''
+// for(i=0;i<forca[p_pos].array_under_word.length;++i) str_under += forca[p_pos].array_under_word[i]
+// forca[p_pos].attempts -= 1
+// attempts = forca[p_pos].attempts
+// if(forca[p_pos].attempts <= 0) {
+// forca.splice(p_pos, 1)
+// fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
+// enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram*`)
+// } else {
+// enviar(`*Você errou!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Você tem ${attempts} chances*`)
+// fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
+// }
+//     }
+// }
+// break
+
+
 case 'forca':
-if(!isPlayForca) return enviar(`*Você não iniciou uma partida, para iniciar dê o comando ${prefix}jogodaforca*`)
-if(args.length < 1) return enviar(`*Dê o comando mais a letra para advinhar*`)
-if(args[0].trim().length < 2) {
-    p_pos = allForcaId.indexOf(sender)
-    find = forca[p_pos].word.match(args[0].toLowerCase())
-    is_correct = false 
-    while(find != null) {
-res_tmp = forca[p_pos].word.indexOf(args[0].toLowerCase())
-forca[p_pos].array_under_word[res_tmp] = args[0].toLowerCase()
-forca[p_pos].array_word[res_tmp] = 0
-forca[p_pos].word = forca[p_pos].word.replace(args[0].toLowerCase(), 0)
-find = forca[p_pos].word.match(args[0].toLowerCase())
-is_correct = true
+if (!isPlayForca) return enviar(`*Você não iniciou uma partida, para iniciar dê o comando ${prefix}jogodaforca*`);
+if (args.length < 1) return enviar(`*Dê o comando mais a letra para advinhar*`);
+if (args[0].trim().length < 2) {
+    p_pos = allForcaId.indexOf(sender);
+    find = forca[p_pos].word.match(args[0].toLowerCase());
+    is_correct = false;
+    while (find != null) {
+        res_tmp = forca[p_pos].word.indexOf(args[0].toLowerCase());
+        forca[p_pos].array_under_word[res_tmp] = args[0].toLowerCase();
+        forca[p_pos].array_word[res_tmp] = 0;
+        forca[p_pos].word = forca[p_pos].word.replace(args[0].toLowerCase(), 0);
+        find = forca[p_pos].word.match(args[0].toLowerCase());
+        is_correct = true;
     }
-    if(is_correct) {
-str_under = ''
-for(i=0;i<forca[p_pos].array_under_word.length;++i) str_under += forca[p_pos].array_under_word[i]
-attempts = forca[p_pos].attempts
-if(str_under == forca[p_pos].word_original) {
-enviar(`*Parabéns, Você venceu o jogo!✅🥳*\n\n${puppet[attempts]}\n\n_*Palavra: ${str_under.split('').join(' ')}*_`)
-forca.splice(p_pos, 1)
-fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
-} else {
-enviar(`*Você acertou!✅*\n\n${puppet[attempts]}\n\n_*Palavra: ${str_under.split('').join(' ')}*_\n*Você tem ${attempts} chances*`)
-fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
-}
-    } else  {
-str_under = ''
-for(i=0;i<forca[p_pos].array_under_word.length;++i) str_under += forca[p_pos].array_under_word[i]
-forca[p_pos].attempts -= 1
-attempts = forca[p_pos].attempts
-if(forca[p_pos].attempts <= 0) {
-forca.splice(p_pos, 1)
-fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
-enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram*`)
-} else {
-enviar(`*Você errou!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Você tem ${attempts} chances*`)
-fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
-}
-    }
-} else {
-    p_pos = allForcaId.indexOf(sender)
-    if(forca[p_pos].word_original == args[0].toLowerCase()) {
-attempts = forca[p_pos].attempts
-enviar(`*Parabéns, Você venceu o jogo!✅🥳*\n\n${puppet[attempts]}\n\n_*Palavra: ${forca[p_pos].word_original.split('').join(' ')}*_`)
-forca.splice(p_pos, 1)
-fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
+    if (is_correct) {
+        str_under = '';
+        for (i = 0; i < forca[p_pos].array_under_word.length; ++i) str_under += forca[p_pos].array_under_word[i];
+        attempts = forca[p_pos].attempts;
+        if (str_under == forca[p_pos].word_original) {
+            enviar(`*Parabéns, Você venceu o jogo!✅🥳*\n\n${puppet[attempts]}\n\n_*Palavra: ${str_under.split('').join(' ')}*_`);
+            forca.splice(p_pos, 1);
+            fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
+        } else {
+            enviar(`*Você acertou!✅*\n\n${puppet[attempts]}\n\n_*Palavra: ${str_under.split('').join(' ')}*_\n*Você tem ${attempts} chances*`);
+            fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
+        }
     } else {
-str_under = ''
-for(i=0;i<forca[p_pos].array_under_word.length;++i) str_under += forca[p_pos].array_under_word[i]
-forca[p_pos].attempts -= 1
-attempts = forca[p_pos].attempts
-if(forca[p_pos].attempts <= 0) {
-forca.splice(p_pos, 1)
-fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
-enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram*`)
+        str_under = '';
+        for (i = 0; i < forca[p_pos].array_under_word.length; ++i) str_under += forca[p_pos].array_under_word[i];
+        forca[p_pos].attempts -= 1;
+        attempts = forca[p_pos].attempts;
+        if (forca[p_pos].attempts <= 0) {
+            forca.splice(p_pos, 1);
+            fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
+            enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram*\n\n*A palavra era: ${forca[p_pos].word_original}*`);
+        } else {
+            enviar(`*Você errou!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Você tem ${attempts} chances*`);
+            fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
+        }
+    }
 } else {
-enviar(`*Você errou!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Você tem ${attempts} chances*`)
-fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
-}
+    p_pos = allForcaId.indexOf(sender);
+    if (forca[p_pos].word_original == args[0].toLowerCase()) {
+        attempts = forca[p_pos].attempts;
+        enviar(`*Parabéns, Você venceu o jogo!✅🥳*\n\n${puppet[attempts]}\n\n_*Palavra: ${forca[p_pos].word_original.split('').join(' ')}*_`);
+        forca.splice(p_pos, 1);
+        fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
+    } else {
+        str_under = '';
+        for (i = 0; i < forca[p_pos].array_under_word.length; ++i) str_under += forca[p_pos].array_under_word[i];
+        forca[p_pos].attempts -= 1;
+        attempts = forca[p_pos].attempts;
+        if (forca[p_pos].attempts<= 0) {
+            forca.splice(p_pos, 1);
+            fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
+            enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram*\n\n*A palavra era: ${forca[p_pos].word_original}*`);
+        } else {
+            enviar(`*Você errou!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Você tem ${attempts} chances*`);
+            fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2));
+        }
     }
 }
 break
+
+
 
 case 'jogodaforca':
 if (!isRegistro) return enviar(hah.login)
