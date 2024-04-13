@@ -347,6 +347,7 @@ const isQuotedLocation = type === "extendedTextMessage" && content.includes("loc
 const isQuotedProduct = type === "extendedTextMessage" && content.includes("productMessage")
 //const ytdl = require('ytdl-core');
 
+
 const cell = `${info.key.id.length > 21 ? 'Android' : info.key.id.substring(0, 2) == '3A' ? 'IOS' : 'WhatsApp web'}`
 
 const time2 = moment().tz('America/Sao_Paulo').format('HH:mm:ss')
@@ -1052,7 +1053,7 @@ case 'toimg':
 
         if (!message || !isQuotedSticker) {
  
-        const media = await conn.downloadAndSaveMediaMessage(message); // Baixa e salva a mídia localmente
+        const media = await conn.downloadMediaMessage(message); // Baixa e salva a mídia localmente
         const imagem = `./${Date.now()}.png`;
 
         await sharp(media)
