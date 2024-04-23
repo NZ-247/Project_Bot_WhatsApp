@@ -1871,7 +1871,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(6)
 enviar(' ❰ Pesquisando a sua ficha de feio : '+rate+', aguarde... ❱')
  setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/bd22339646fe7f163f89c.jpg`)
+wew = await getBuffer(`https://i.imgur.com/NuEuz22.jpeg`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 feio = random
@@ -1892,7 +1892,7 @@ for (let _ of mentioned) {
 pru += `@${_.split('@')[0]}\n`
 }
 susp = `Você Acabou de matar o(a) @${mentioned[0].split('@')[0]} 😈👹` 
-jrpp = await getBuffer(`https://telegra.ph/file/1135a19fceefa7074caf8.mp4"`)
+jrpp = await getBuffer(`https://i.imgur.com/KsITwIP.mp4`)
 await conn.sendMessage(from, {video: jrpp, gifPlayback: true, caption: susp}, {quoted: info})
 break 
 
@@ -1903,7 +1903,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(7)
 enviar(hah.toy)
 setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/3182942e577dbbc27b17e.jpg`)
+wew = await getBuffer(`https://i.imgur.com/kTVBnvF.jpeg`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 await conn.sendMessage(from, {image: wew, caption: '  O quanto você é corno? \n\n 「 '+rate+' 」Você é: ❰ '+random+'% ❱  corno 🐃'}, { quoted: info})
@@ -1917,7 +1917,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(7)
 enviar(hah.toy)
 setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/2c6675f5bc489c219fbb0.jpg`)
+wew = await getBuffer(`https://i.imgur.com/XHPABId.jpeg`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 await conn.sendMessage(from, {image: wew, caption: 'O quanto você é vesgo? \n\n「 '+rate+' 」Você é: ❰ '+random+'% ❱  Vesgo 🙄😆'}, {quoted: info})
@@ -1931,7 +1931,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(7)
 enviar(hah.toy)
 setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/b69ac603e275e610d2c34.jpg`)
+wew = await getBuffer(`https://i.imgur.com/fjo34V9.png`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 await conn.sendMessage(from, {image: wew, caption: 'O quanto você é bebado? \n\n「 '+rate+' 」Você é: ❰ '+random+'% ❱ Bêbado 🤢🥵🥴'}, {quoted: info})
@@ -1945,7 +1945,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(6)
 enviar(hah.toy)
 setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/6ac2858647969cca031fd.jpg`)
+wew = await getBuffer(`https://i.imgur.com/HoPBr30.jpeg`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 await conn.sendMessage(from, {image: wew, caption: 'O quanto você é gado? \n\n「 '+rate+' 」Você é: ❰ '+random+'% ❱  gado 🐂'}, {quoted: info})
@@ -1959,7 +1959,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(9)
 enviar(hah.toy)
 setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/df6f2722710ef26a82c04.jpg`)
+wew = await getBuffer(`https://i.imgur.com/1k19wU1.jpeg`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 await conn.sendMessage(from, {image: wew, caption: '  O quanto você é gostoso? 😏\n\n「 '+rate+' 」Você é: ❰ '+random+'% ❱ gostoso 😝', gifPlayback: true}, {quoted: info})
@@ -1973,7 +1973,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(9)
 enviar(hah.toy)
 setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/9bd3e6fcc0e8da9939ed6.jpg`)
+wew = await getBuffer(`https://i.imgur.com/TAg2cQn.jpeg`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 await conn.sendMessage(from, {image: wew, caption: 'O quanto você é gostosa? 😏\n\n「 '+rate+' 」Você é: ❰ '+random+'% ❱  gostosa 😳'}, {quoted: info})
@@ -1991,7 +1991,7 @@ for (let _ of mentioned) {
 pru += `@${_.split('@')[0]}\n`
 }
 susp = `Você deu um beijo gostoso na(o) @${mentioned[0].split('@')[0]} 😁👉👈❤` 
-wew = await getBuffer(`https://telegra.ph/file/c9b5ed858237ebc9f7356.mp4`)
+wew = await getBuffer(`https://i.imgur.com/LGaxiIO.mp4`)
 await conn.sendMessage(from, {video: wew, gifPlayback: true, caption: susp}, {quoted: info})
 break
 
@@ -2006,7 +2006,7 @@ for (let _ of mentioned) {
 pru += `@${_.split('@')[0]}\n`
 }
 susp = `Você Acabou de da um tapa na raba da😏 @${mentioned[0].split('@')[0]} 🔥` 
-jrq = await getBuffer(`https://telegra.ph/file/841664f31eb7539c35a2d.mp4`)
+jrq = await getBuffer(`https://i.imgur.com/4a8nuZy.jpeg`)
 await conn.sendMessage(from, {video: jrq, gifPlayback: true, caption: susp}, {quoted: info})
 break
 
@@ -2021,7 +2021,7 @@ for (let _ of mentioned) {
 pru += `@${_.split('@')[0]}\n`
 }
 susp = `Você Acabou de da um chute em @${mentioned[0].split('@')[0]} [🩸]` 
-jry = await getBuffer(`https://telegra.ph/file/d4b2525d2e1aeb33fa626.mp4`)
+jry = await getBuffer(`https://i.imgur.com/3A40O3l.mp4`)
 await conn.sendMessage(from, {video: jry, gifPlayback: true, caption: susp}, {quoted: info})
 break 
 
@@ -2078,7 +2078,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(9)
 enviar(hah.toy)
 setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/fb2762032047db19d206b.jpg`)
+wew = await getBuffer(`https://i.imgur.com/sM9OtJf.png`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 await conn.sendMessage(from, {image: wew, caption: 'O quanto você é nazista? \n\n「 '+rate+' 」Você é: ❰ '+random+'% ❱  nazista 卐'}, {quoted: info})
