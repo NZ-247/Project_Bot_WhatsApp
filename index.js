@@ -1765,7 +1765,7 @@ attempts = forca[p_pos].attempts
 if(forca[p_pos].attempts <= 0) {
 forca.splice(p_pos, 1)
 fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
-enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram* \n_*Palavra: ${forca[p_pos].word_original.split('').join(' ')}*_`)
+enviar(`*Você perdeu o jogo!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Suas chances se esgotaram* `)
 } else {
 enviar(`*Você errou!❌*\n\n${puppet[attempts]}\n\n*Palavra: ${str_under.split('').join(' ')}*\n*Você tem ${attempts} chances*`)
 fs.writeFileSync('datab/funções/grupos/forca.json', JSON.stringify(forca, null, 2))
@@ -1853,7 +1853,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(5)
 enviar(' ❰ Pesquisando a sua ficha de gay : '+rate+' aguarde... ❱')
  setTimeout(async() => {
-wew = await getBuffer(`https://telegra.ph/file/fe1a5a942d6114ebc18a3.jpg`)
+wew = await getBuffer(`https://imgur.com/a/1Yj0qQM`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 feio = random
