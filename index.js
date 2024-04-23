@@ -1853,7 +1853,7 @@ if (!isGroup) return enviar('Só em Grupo')
 rate = body.slice(5)
 enviar(' ❰ Pesquisando a sua ficha de gay : '+rate+' aguarde... ❱')
  setTimeout(async() => {
-wew = await getBuffer(`https://imgur.com/a/1Yj0qQM`)
+wew = await getBuffer(`https://i.imgur.com/4aEBPLt_d.jpg`)
 zxzz = 
 random = `${Math.floor(Math.random() * 110)}`
 feio = random
